@@ -48,9 +48,7 @@ public abstract class HabitList implements Iterable<Habit>
     public HabitList()
     {
         observable = new ModelObservable();
-        filter = new HabitMatcherBuilder()
-            .setArchivedAllowed(true)
-            .build();
+        filter = new HabitMatcherBuilder().setArchivedAllowed(true).build();
     }
 
     protected HabitList(@NonNull HabitMatcher filter)
@@ -106,6 +104,15 @@ public abstract class HabitList implements Iterable<Habit>
         return observable;
     }
 
+    public abstract Order getOrder();
+
+    /**
+     * Changes the order of the elements on the list.
+     *
+     * @param order the new order criterea
+     */
+    public abstract void setOrder(@NonNull Order order);
+
     /**
      * Returns the index of the given habit in the list, or -1 if the list does
      * not contain the habit.
@@ -146,6 +153,16 @@ public abstract class HabitList implements Iterable<Habit>
      * @param to   the habit that currently occupies the desired position
      */
     public abstract void reorder(Habit from, Habit to);
+
+    public void repair()
+    {
+        for (Habit h : this)
+        {
+            h.getCheckmarks().invalidateNewerThan(0);
+            h.getStreaks().invalidateNewerThan(0);
+            h.getScores().invalidateNewerThan(0);
+        }
+    }
 
     /**
      * Returns the number of habits in this list.
@@ -217,5 +234,13 @@ public abstract class HabitList implements Iterable<Habit>
         }
 
         csv.close();
+    }
+
+    public enum Order
+    {
+        BY_NAME,
+        BY_COLOR,
+        BY_SCORE,
+        BY_POSITION
     }
 }

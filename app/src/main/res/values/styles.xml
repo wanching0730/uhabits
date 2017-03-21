@@ -28,7 +28,6 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="selectedBackground">@drawable/selected_box_light</item>
-        <item name="headerBackground">@drawable/habits_list_header_light_background</item>
         <item name="cardBackground">@drawable/card_light_background</item>
 
         <item name="colorPrimary">@color/blue_grey_800</item>
@@ -54,6 +53,7 @@
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
         <item name="iconArchive">@drawable/ic_action_archive_dark</item>
         <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconDownload">@drawable/ic_action_download_dark</item>
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="iconFilter">@drawable/ic_action_filter_dark</item>
@@ -81,7 +81,6 @@
         <item name="actionModeBackground">@color/grey_800</item>
 
         <item name="selectedBackground">@drawable/selected_box_dark</item>
-        <item name="headerBackground">@drawable/habits_list_header_dark_background</item>
         <item name="cardBackground">@drawable/card_dark_background</item>
 
         <item name="colorPrimary">@color/grey_950</item>
@@ -125,7 +124,6 @@
 
     <style name="AppBaseThemeDark.PureBlack">
         <item name="selectedBackground">@drawable/selected_box_amoled</item>
-        <item name="headerBackground">@drawable/habits_list_header_amoled_background</item>
         <item name="cardBackground">@drawable/card_amoled_background</item>
 
         <item name="colorPrimary">@color/black</item>
@@ -253,5 +251,9 @@
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/toolbar_shadow</item>
         <item name="android:alpha">0.2</item>
+    </style>
+
+    <style name="TimePickerDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

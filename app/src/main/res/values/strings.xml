@@ -102,6 +102,7 @@
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
     <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
+    <string name="habit_not_found">Habit deleted / not found</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Monday to Friday</string>
     <string name="any_day">Any day of the week</string>
@@ -190,4 +191,17 @@
     <string name="sticky_notifications_description">Prevents notifications from being swiped away.</string>
     <string name="repair_database">Repair database</string>
     <string name="database_repaired">Database repaired.</string>
+
+    <string name="uncheck">Uncheck</string>
+    <string name="toggle">Toggle</string>
+    <string name="action">Action</string>
+    <string name="habit">Habit</string>
+
+    <string name="sort">Sort</string>
+    <string name="manually">Manually</string>
+    <string name="by_name">By name</string>
+    <string name="by_color">By color</string>
+    <string name="by_score">By score</string>
+    <string name="download">Download</string>
+    <string name="export">Export</string>
 </resources>

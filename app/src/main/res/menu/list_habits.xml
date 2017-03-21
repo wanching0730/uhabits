@@ -26,13 +26,13 @@
         android:id="@+id/actionAdd"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_filter"
         android:icon="?iconFilter"
         android:title="@string/filter"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/actionHideArchived"
@@ -45,6 +45,26 @@
                 android:checkable="true"
                 android:enabled="true"
                 android:title="@string/hide_completed"/>
+
+            <item android:title="@string/sort">
+                <menu>
+                    <item
+                        android:id="@+id/actionSortManual"
+                        android:title="@string/manually"/>
+
+                    <item
+                        android:id="@+id/actionSortName"
+                        android:title="@string/by_name"/>
+
+                    <item
+                        android:id="@+id/actionSortColor"
+                        android:title="@string/by_color"/>
+
+                    <item
+                        android:id="@+id/actionSortScore"
+                        android:title="@string/by_score"/>
+                </menu>
+            </item>
         </menu>
     </item>
 
@@ -73,5 +93,4 @@
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never"/>
-
 </menu>
