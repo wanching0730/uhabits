@@ -30,6 +30,8 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
+import kotlin.*;
+
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.makeMeasureSpec;
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
@@ -208,10 +210,17 @@ public class CheckmarkPanelView extends LinearLayout
     private void setupButtonControllers(long timestamp,
                                         CheckmarkButtonView buttonView)
     {
-        buttonView.setOnInvalidToggleListener(
-            () -> onInvalidToggleListener.onInvalidToggle());
-        buttonView.setOnToggleListener(
-            () -> onToggleLister.onToggle(timestamp));
+        buttonView.setOnInvalidToggle(() ->
+        {
+            onInvalidToggleListener.onInvalidToggle();
+            return Unit.INSTANCE;
+        });
+
+        buttonView.setOnToggle(() ->
+        {
+            onToggleLister.onToggle(timestamp);
+            return Unit.INSTANCE;
+        });
     }
 
     private void setupButtons()

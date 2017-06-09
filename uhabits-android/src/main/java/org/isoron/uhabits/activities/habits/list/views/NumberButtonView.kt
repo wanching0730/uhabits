@@ -94,6 +94,7 @@ class NumberButtonView(context: Context) : View(context), OnClickListener, OnLon
     }
 
     override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
         drawer.draw(canvas)
     }
 
