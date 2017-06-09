@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'jacoco'
 
 android {
@@ -66,9 +67,10 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.6.1-SNAPSHOT'
     implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     implementation 'org.apmem.tools:layouts:1.10'
-    implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     compileOnly 'javax.annotation:jsr250-api:1.0'
     compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'

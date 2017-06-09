@@ -212,6 +212,11 @@ public class Preferences
         return storage.getBoolean("pref_short_toggle", false);
     }
 
+    public void setShortToggleEnabled(boolean enabled)
+    {
+        storage.putBoolean("pref_short_toggle", enabled);
+    }
+
     public boolean isSyncEnabled()
     {
         return storage.getBoolean("pref_feature_sync", false);

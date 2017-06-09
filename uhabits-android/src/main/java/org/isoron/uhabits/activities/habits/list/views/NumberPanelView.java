@@ -30,6 +30,8 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
+import kotlin.*;
+
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.makeMeasureSpec;
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
@@ -55,7 +57,7 @@ public class NumberPanelView extends LinearLayout
 
     private int color;
 
-    private String unit;
+    private String unit = "";
 
     private int dataOffset;
 
@@ -131,15 +133,15 @@ public class NumberPanelView extends LinearLayout
         setupButtons();
     }
 
+    public void setOnEditListener(OnEditListener onEditListener)
+    {
+        this.onEditListener = onEditListener;
+    }
+
     public void setOnInvalidEditListener(
         @NonNull OnInvalidEditListener onInvalidEditListener)
     {
         this.onInvalidEditListener = onInvalidEditListener;
-    }
-
-    public void setOnEditListener(OnEditListener onEditListener)
-    {
-        this.onEditListener = onEditListener;
     }
 
     public void setThreshold(double threshold)
@@ -214,18 +216,28 @@ public class NumberPanelView extends LinearLayout
         setWillNotDraw(false);
         values = new double[0];
 
-        onInvalidEditListener = () -> {};
-        onEditListener = (t) -> {};
+        onInvalidEditListener = () ->
+        {
+        };
+        onEditListener = (t) ->
+        {
+        };
     }
 
     private void setupButtonControllers(long timestamp,
                                         NumberButtonView buttonView)
     {
-        buttonView.setOnEditListener(
-            () -> onEditListener.onEdit(timestamp));
+        buttonView.setOnEdit(() ->
+        {
+            onEditListener.onEdit(timestamp);
+            return Unit.INSTANCE;
+        });
 
-        buttonView.setOnInvalidEditListener(
-            () -> onInvalidEditListener.onInvalidEdit());
+        buttonView.setOnInvalidEdit(() ->
+        {
+            onInvalidEditListener.onInvalidEdit();
+            return Unit.INSTANCE;
+        });
     }
 
     private void setupButtons()
@@ -241,19 +253,19 @@ public class NumberPanelView extends LinearLayout
             buttonView.setValue(values[i + dataOffset]);
             buttonView.setColor(color);
             buttonView.setThreshold(threshold);
-            buttonView.setUnit(unit);
+            buttonView.setUnits(unit);
             setupButtonControllers(timestamp, buttonView);
             timestamp -= day;
         }
     }
 
-    public interface OnInvalidEditListener
-    {
-        void onInvalidEdit();
-    }
-
     public interface OnEditListener
     {
         void onEdit(long timestamp);
+    }
+
+    public interface OnInvalidEditListener
+    {
+        void onInvalidEdit();
     }
 }
