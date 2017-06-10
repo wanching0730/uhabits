@@ -83,7 +83,7 @@ public class HeaderView extends ScrollableChart
     }
 
     @Override
-    public void onCheckmarkOrderChanged()
+    public void onCheckmarkSequenceChanged()
     {
         updateDirection();
         postInvalidate();
@@ -179,7 +179,7 @@ public class HeaderView extends ScrollableChart
     private boolean shouldReverseCheckmarks()
     {
         if (prefs == null) return false;
-        return prefs.shouldReverseCheckmarks();
+        return prefs.isCheckmarkSequenceReversed();
     }
 
     private void updateDirection()

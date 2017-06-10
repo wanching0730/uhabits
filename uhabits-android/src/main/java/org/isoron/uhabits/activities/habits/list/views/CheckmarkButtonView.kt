@@ -34,10 +34,24 @@ import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.utils.AttributeSetUtils.*
 
-class CheckmarkButtonView(context: Context) : View(context), View.OnClickListener, View.OnLongClickListener {
+class CheckmarkButtonView(
+        context: Context
+) : View(context),
+    View.OnClickListener,
+    View.OnLongClickListener {
 
     var color: Int = Color.BLACK
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var value: Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var preferences: Preferences? = null
     var onToggle: () -> Unit = {}
     var onInvalidToggle: () -> Unit = {}
@@ -62,19 +76,22 @@ class CheckmarkButtonView(context: Context) : View(context), View.OnClickListene
 
     fun performToggle() {
         onToggle()
-        value = if (value == CHECKED_EXPLICITLY) UNCHECKED else CHECKED_EXPLICITLY
+        value = when (value) {
+            CHECKED_EXPLICITLY -> UNCHECKED
+            else -> CHECKED_EXPLICITLY
+        }
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        postInvalidate()
+        invalidate()
+    }
+
+    override fun onClick(v: View) {
+        if (preferences?.isShortToggleEnabled ?: true) performToggle()
+        else onInvalidToggle()
     }
 
     override fun onLongClick(v: View): Boolean {
         performToggle()
         return true
-    }
-
-    override fun onClick(v: View) {
-        if (preferences!!.isShortToggleEnabled) performToggle()
-        else onInvalidToggle()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -85,7 +102,8 @@ class CheckmarkButtonView(context: Context) : View(context), View.OnClickListene
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = resources.getDimensionPixelSize(R.dimen.checkmarkHeight)
         val width = resources.getDimensionPixelSize(R.dimen.checkmarkWidth)
-        super.onMeasure(makeMeasureSpec(width, EXACTLY), makeMeasureSpec(height, EXACTLY))
+        super.onMeasure(makeMeasureSpec(width, EXACTLY),
+                        makeMeasureSpec(height, EXACTLY))
     }
 
     private inner class Drawer(context: Context) {
@@ -106,8 +124,14 @@ class CheckmarkButtonView(context: Context) : View(context), View.OnClickListene
         }
 
         fun draw(canvas: Canvas) {
-            paint.color = if (value == CHECKED_EXPLICITLY) color else lowContrastColor
-            val id = if (value == UNCHECKED) R.string.fa_times else R.string.fa_check
+            paint.color = when (value) {
+                CHECKED_EXPLICITLY -> color
+                else -> lowContrastColor
+            }
+            val id = when (value) {
+                UNCHECKED -> R.string.fa_times
+                else -> R.string.fa_check
+            }
             val label = resources.getString(id)
             val em = paint.measureText("m")
 

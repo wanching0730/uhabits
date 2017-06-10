@@ -31,8 +31,9 @@ import org.junit.runner.*
 @MediumTest
 class CheckmarkButtonViewTest : BaseViewTest() {
 
-    val PATH = "habits/list/CheckmarkButtonView/"
+    private val PATH = "habits/list/CheckmarkButtonView"
     lateinit var view: CheckmarkButtonView
+
     var toggled = false
     var invalidToggled = false
 
@@ -90,14 +91,14 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     }
 
     private fun assertRendersCheckedExplicitly() {
-        assertRenders(view, PATH + "render_explicit_check.png")
+        assertRenders(view, "$PATH/render_explicit_check.png")
     }
 
     private fun assertRendersCheckedImplicitly() {
-        assertRenders(view, PATH + "render_implicit_check.png")
+        assertRenders(view, "$PATH/render_implicit_check.png")
     }
 
     private fun assertRendersUnchecked() {
-        assertRenders(view, PATH + "render_unchecked.png")
+        assertRenders(view, "$PATH/render_unchecked.png")
     }
 }

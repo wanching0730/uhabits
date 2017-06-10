@@ -33,10 +33,11 @@ import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
+
+import kotlin.*;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -151,7 +152,7 @@ public class HabitCardView extends FrameLayout
 
     public void setUnit(String unit)
     {
-        numberPanel.setUnit(unit);
+        numberPanel.setUnits(unit);
     }
 
     public void setValues(int values[])
@@ -168,14 +169,13 @@ public class HabitCardView extends FrameLayout
 
     public void triggerRipple(long timestamp)
     {
-        long today = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
-        int offset = (int) ((today - timestamp) / day) - dataOffset;
-        CheckmarkButtonView button = checkmarkPanel.indexToButton(offset);
-
-        float y = button.getHeight() / 2.0f;
-        float x = checkmarkPanel.getX() + button.getX() + button.getWidth() / 2;
-        triggerRipple(x, y);
+//        long today = DateUtils.getStartOfToday();
+//        long day = DateUtils.millisecondsInOneDay;
+//        int offset = (int) ((today - timestamp) / day) - dataOffset;
+//        CheckmarkButtonView button = checkmarkPanel.indexToButton(offset);
+//        float y = button.getHeight() / 2.0f;
+//        float x = checkmarkPanel.getX() + button.getX() + button.getWidth() / 2;
+//        triggerRipple(x, y);
     }
 
     @Override
@@ -220,19 +220,30 @@ public class HabitCardView extends FrameLayout
         onToggleListener = ((h,t) -> {});
 
         checkmarkPanel = new CheckmarkPanelView(context);
-        checkmarkPanel.setOnToggleLister(
-            (t) -> onToggleListener.onToggle(habit, t));
-        checkmarkPanel.setOnInvalidToggleListener(
-            () -> onInvalidToggleListener.onInvalidToggle());
+        checkmarkPanel.setOnToggle((t) ->
+        {
+            onToggleListener.onToggle(habit, t);
+            return Unit.INSTANCE;
+        });
+        checkmarkPanel.setOnInvalidToggle(() ->
+        {
+            onInvalidToggleListener.onInvalidToggle();
+            return Unit.INSTANCE;
+        });
 
         numberPanel = new NumberPanelView(context);
         numberPanel.setVisibility(GONE);
-        numberPanel.setOnInvalidEditListener(() ->
-            onInvalidEditListener.onInvalidEdit());
-        numberPanel.setOnEditListener(((t) -> {
-             triggerRipple(t);
-             onEditListener.onEdit(habit, t);
-         }));
+        numberPanel.setOnInvalid(() ->
+        {
+            onInvalidEditListener.onInvalidEdit();
+            return Unit.INSTANCE;
+        });
+        numberPanel.setOnEdit((t) ->
+        {
+            triggerRipple(t);
+            onEditListener.onEdit(habit, t);
+            return Unit.INSTANCE;
+        });
 
         innerFrame.addView(scoreRing);
         innerFrame.addView(label);

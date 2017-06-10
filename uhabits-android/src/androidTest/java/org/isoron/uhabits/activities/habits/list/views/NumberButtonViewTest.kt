@@ -32,9 +32,11 @@ import org.junit.runner.*
 @MediumTest
 class NumberButtonViewTest : BaseViewTest() {
 
+    private val PATH = "habits/list/NumberButtonView"
+    private lateinit var view: NumberButtonView
+
     var edited = false
     var invalidEdited = false
-    private lateinit var view: NumberButtonView
 
     @Before
     override fun setUp() {
@@ -71,19 +73,19 @@ class NumberButtonViewTest : BaseViewTest() {
     @Test
     fun testRender_aboveThreshold() {
         view.value = 500.0
-        assertRenders(view, PATH + "render_above.png")
+        assertRenders(view, "$PATH/render_above.png")
     }
 
     @Test
     fun testRender_belowThreshold() {
         view.value = 99.0
-        assertRenders(view, PATH + "render_below.png")
+        assertRenders(view, "$PATH/render_below.png")
     }
 
     @Test
     fun testRender_zero() {
         view.value = 0.0
-        assertRenders(view, PATH + "render_zero.png")
+        assertRenders(view, "$PATH/render_zero.png")
     }
 
     @Test
@@ -106,9 +108,5 @@ class NumberButtonViewTest : BaseViewTest() {
     fun testLongClick() {
         view.performLongClick()
         assertTrue(edited)
-    }
-
-    companion object {
-        val PATH = "habits/list/NumberButtonView/"
     }
 }

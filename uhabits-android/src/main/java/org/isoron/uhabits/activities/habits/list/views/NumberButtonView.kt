@@ -52,10 +52,29 @@ fun Double.toShortString(): String = when {
 
 class NumberButtonView(context: Context) : View(context), OnClickListener, OnLongClickListener {
 
-    var color: Int = 0
-    var value: Double = 0.0
-    var threshold: Double = 0.0
-    var units: String = ""
+    var color = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var value = 0.0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var threshold = 0.0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var units = ""
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     var onEdit: () -> Unit = {}
     var onInvalidEdit: () -> Unit = {}
