@@ -21,6 +21,8 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.support.test.filters.*
 import android.support.test.runner.*
+import org.hamcrest.CoreMatchers.*
+import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.utils.*
@@ -83,5 +85,26 @@ class CheckmarkPanelViewTest : BaseViewTest() {
     fun testRender_withOffset() {
         view.dataOffset = 3
         assertRenders(view, "$PATH/render_offset.png")
+    }
+
+    @Test
+    fun testToggle() {
+        var timestamps = LongArray(0)
+        view.onToggle = { timestamps += it }
+        view.buttons[0].performClick()
+        view.buttons[2].performClick()
+        view.buttons[3].performClick()
+        assertThat(timestamps, equalTo(longArrayOf(day(0), day(2), day(3))))
+    }
+
+    @Test
+    fun testToggle_withOffset() {
+        var timestamps = LongArray(0)
+        view.dataOffset = 3
+        view.onToggle = { timestamps += it }
+        view.buttons[0].performClick()
+        view.buttons[2].performClick()
+        view.buttons[3].performClick()
+        assertThat(timestamps, equalTo(longArrayOf(day(3), day(5), day(6))))
     }
 }

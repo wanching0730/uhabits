@@ -50,7 +50,11 @@ fun Double.toShortString(): String = when {
     else -> DecimalFormat("#.##").format(this)
 }
 
-class NumberButtonView(context: Context) : View(context), OnClickListener, OnLongClickListener {
+class NumberButtonView(
+        context: Context
+) : View(context),
+    OnClickListener,
+    OnLongClickListener {
 
     var color = 0
         set(value) {
@@ -103,7 +107,7 @@ class NumberButtonView(context: Context) : View(context), OnClickListener, OnLon
     }
 
     override fun onClick(v: View) {
-        if (preferences!!.isShortToggleEnabled) onEdit()
+        if (preferences?.isShortToggleEnabled ?: false) onEdit()
         else onInvalidEdit()
     }
 

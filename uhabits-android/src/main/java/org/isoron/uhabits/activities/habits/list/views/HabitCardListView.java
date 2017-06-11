@@ -32,6 +32,8 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
+import kotlin.*;
+
 public class HabitCardListView extends RecyclerView
 {
     @Nullable
@@ -177,17 +179,35 @@ public class HabitCardListView extends RecyclerView
     protected void setupCardViewListeners(@NonNull HabitCardViewHolder holder)
     {
         HabitCardView cardView = (HabitCardView) holder.itemView;
-        cardView.setOnInvalidEditListener(() -> controller.onInvalidEdit());
-        cardView.setOnInvalidToggleListener(() -> controller.onInvalidToggle());
-        cardView.setOnToggleListener(
-            (habit, timestamp) -> controller.onToggle(habit, timestamp));
-        cardView.setOnEditListener(
-            (habit, timestamp) -> controller.onEdit(habit, timestamp));
+        cardView.setOnInvalidEdit(() ->
+        {
+            controller.onInvalidEdit();
+            return Unit.INSTANCE;
+        });
+
+        cardView.setOnInvalidToggle(() ->
+        {
+            controller.onInvalidToggle();
+            return Unit.INSTANCE;
+        });
+
+        cardView.setOnToggle((habit, timestamp) ->
+        {
+            controller.onToggle(habit, timestamp);
+            return Unit.INSTANCE;
+        });
+
+        cardView.setOnEdit((habit, timestamp) ->
+        {
+            controller.onEdit(habit, timestamp);
+            return Unit.INSTANCE;
+        });
 
         GestureDetector detector = new GestureDetector(getContext(),
             new CardViewGestureDetector(holder));
 
-        cardView.setOnTouchListener((v, ev) -> {
+        cardView.setOnTouchListener((v, ev) ->
+        {
             detector.onTouchEvent(ev);
             return true;
         });

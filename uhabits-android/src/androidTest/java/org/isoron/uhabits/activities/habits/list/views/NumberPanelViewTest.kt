@@ -21,6 +21,8 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.support.test.filters.*
 import android.support.test.runner.*
+import org.hamcrest.CoreMatchers.*
+import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.utils.*
 import org.junit.*
@@ -83,5 +85,26 @@ class NumberPanelViewTest : BaseViewTest() {
     fun testRender_withOffset() {
         view.dataOffset = 3
         assertRenders(view, "$PATH/render_offset.png")
+    }
+
+    @Test
+    fun testEdit() {
+        var timestamps = LongArray(0)
+        view.onEdit = { timestamps += it }
+        view.buttons[0].performLongClick()
+        view.buttons[2].performLongClick()
+        view.buttons[3].performLongClick()
+        assertThat(timestamps, equalTo(longArrayOf(day(0), day(2), day(3))))
+    }
+
+    @Test
+    fun testEdit_withOffset() {
+        var timestamps = LongArray(0)
+        view.dataOffset = 3
+        view.onEdit = { timestamps += it }
+        view.buttons[0].performLongClick()
+        view.buttons[2].performLongClick()
+        view.buttons[3].performLongClick()
+        assertThat(timestamps, equalTo(longArrayOf(day(3), day(5), day(6))))
     }
 }

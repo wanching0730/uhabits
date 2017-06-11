@@ -175,4 +175,10 @@ public class BaseAndroidTest extends TestCase
     {
         Debug.stopMethodTracing();
     }
+
+    protected Long day(int offset)
+    {
+        return DateUtils.getStartOfToday() -
+               offset * DateUtils.millisecondsInOneDay;
+    }
 }

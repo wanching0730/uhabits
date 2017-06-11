@@ -77,7 +77,7 @@ class CheckmarkPanelView(
         val day = DateUtils.millisecondsInOneDay
 
         buttons.forEachIndexed { index, button ->
-            val timestamp = today - index * day
+            val timestamp = today - (index + dataOffset) * day
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> UNCHECKED

@@ -89,7 +89,7 @@ class NumberPanelView(
         val today = DateUtils.getStartOfToday()
 
         buttons.forEachIndexed { index, button ->
-            val timestamp = today - index * day
+            val timestamp = today - (index + dataOffset) * day
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> 0.0
