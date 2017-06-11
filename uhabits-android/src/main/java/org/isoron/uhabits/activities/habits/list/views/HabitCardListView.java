@@ -27,8 +27,11 @@ import android.support.v7.widget.helper.*;
 import android.util.*;
 import android.view.*;
 
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 
 import java.util.*;
 
@@ -50,6 +53,9 @@ public class HabitCardListView extends RecyclerView
 
     private LinkedList<HabitCardViewHolder> attachedHolders;
 
+    @Nullable
+    private Preferences preferences;
+
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -63,6 +69,14 @@ public class HabitCardListView extends RecyclerView
 
         attachedHolders = new LinkedList<>();
         controller = new Controller() {};
+
+        if(context instanceof HabitsActivity)
+        {
+            HabitsApplicationComponent component =
+                ((HabitsActivity) context).getAppComponent();
+
+            preferences = component.getPreferences();
+        }
     }
 
     public void attachCardView(HabitCardViewHolder holder)
@@ -104,7 +118,7 @@ public class HabitCardListView extends RecyclerView
 
     public View createCardView()
     {
-        return new HabitCardView(getContext());
+        return new HabitCardView(getContext(), preferences);
     }
 
     public void detachCardView(HabitCardViewHolder holder)
@@ -288,7 +302,6 @@ public class HabitCardListView extends RecyclerView
                               ViewHolder from,
                               ViewHolder to)
         {
-            if (controller == null) return false;
             controller.drop(from.getAdapterPosition(), to.getAdapterPosition());
             return true;
         }

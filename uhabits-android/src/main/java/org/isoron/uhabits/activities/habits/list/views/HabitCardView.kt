@@ -19,13 +19,11 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.annotation.*
 import android.content.*
 import android.os.*
 import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
 import android.text.*
-import android.util.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
@@ -34,12 +32,13 @@ import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
-import java.util.*
 
 class HabitCardView(
-        context: Context
+        context: Context,
+        preferences: Preferences
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
@@ -135,7 +134,7 @@ class HabitCardView(
             if (SDK_INT >= M) breakStrategy = Layout.BREAK_STRATEGY_BALANCED
         }
 
-        checkmarkPanel = CheckmarkPanelView(context).apply {
+        checkmarkPanel = CheckmarkPanelView(context, preferences).apply {
             onToggle = { t ->
                 triggerRipple(t)
                 habit?.let { onToggle(it, t) }
@@ -143,7 +142,7 @@ class HabitCardView(
             onInvalidToggle = { this@HabitCardView.onInvalidToggle() }
         }
 
-        numberPanel = NumberPanelView(context).apply {
+        numberPanel = NumberPanelView(context, preferences).apply {
             visibility = GONE
             onEdit = { t ->
                 triggerRipple(t)
@@ -162,11 +161,7 @@ class HabitCardView(
             if (SDK_INT >= LOLLIPOP) v.background.setHotspot(event.x, event.y)
             false
         }
-
-        if (isInEditMode) initEditMode()
     }
-
-    constructor(context: Context, attrs: AttributeSet) : this(context)
 
     override fun onModelChange() {
         Handler(Looper.getMainLooper()).post {
@@ -203,7 +198,7 @@ class HabitCardView(
 
         fun getActiveColor(habit: Habit): Int {
             val res = StyledResources(context)
-            return when(habit.isArchived) {
+            return when (habit.isArchived) {
                 true -> res.getColor(R.attr.mediumContrastTextColor)
                 false -> PaletteUtils.getColor(context, habit.color)
             }
@@ -259,26 +254,5 @@ class HabitCardView(
             false -> R.drawable.ripple
         }
         innerFrame.setBackgroundResource(background)
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun initEditMode() {
-        val habits = arrayOf("Wake up early",
-                             "Wash dishes",
-                             "Exercise",
-                             "Meditate",
-                             "Play guitar",
-                             "Wash clothes",
-                             "Get a haircut")
-
-        val rand = Random()
-        val color = PaletteUtils.getAndroidTestColor(rand.nextInt(10))
-        label.text = habits[rand.nextInt(habits.size)]
-        label.setTextColor(color)
-        scoreRing.color = color
-        scoreRing.percentage = rand.nextFloat()
-        checkmarkPanel.color = color
-        numberPanel.color = color
-        checkmarkPanel.buttonCount = 5
     }
 }

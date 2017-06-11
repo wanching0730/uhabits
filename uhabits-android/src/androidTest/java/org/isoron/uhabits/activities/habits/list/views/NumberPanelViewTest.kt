@@ -47,8 +47,7 @@ class NumberPanelViewTest : BaseViewTest() {
                                        2500.0,
                                        45000.0)
 
-        view = NumberPanelView(targetContext).apply {
-            preferences = this@NumberPanelViewTest.prefs
+        view = NumberPanelView(targetContext, prefs).apply {
             values = checkmarks
             buttonCount = 4
             color = PaletteUtils.getAndroidTestColor(7)

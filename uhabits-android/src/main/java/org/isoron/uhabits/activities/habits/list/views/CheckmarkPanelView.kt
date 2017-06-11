@@ -20,17 +20,14 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
-import android.util.*
 import org.isoron.uhabits.core.models.Checkmark.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.utils.AttributeSetUtils.*
-import org.isoron.uhabits.utils.PaletteUtils.*
-import java.lang.Math.*
-import java.util.*
 
 class CheckmarkPanelView(
-        context: Context
-) : ButtonPanelView<CheckmarkButtonView>(context) {
+        context: Context,
+        preferences: Preferences
+) : ButtonPanelView<CheckmarkButtonView>(context, preferences) {
 
     var values = IntArray(0)
         set(values) {
@@ -56,20 +53,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    constructor(ctx: Context, attrs: AttributeSet) : this(ctx) {
-        val paletteColor = getIntAttribute(ctx, attrs, "color", 0)
-        color = getAndroidTestColor(paletteColor)
-        buttonCount = getIntAttribute(ctx, attrs, "button_count", 5)
-        if (isInEditMode) initEditMode()
-    }
-
-    private fun initEditMode() {
-        val values = IntArray(buttonCount)
-        values.map { min(2, Random().nextInt(4)) }
-        this.values = values
-    }
-
-    override fun createButton() = CheckmarkButtonView(context)
+    override fun createButton() = CheckmarkButtonView(context, preferences)
 
     @Synchronized
     override fun setupButtons() {

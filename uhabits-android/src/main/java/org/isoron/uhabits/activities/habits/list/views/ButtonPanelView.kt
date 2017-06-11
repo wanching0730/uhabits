@@ -25,11 +25,11 @@ import android.view.View.MeasureSpec.*
 import android.widget.*
 import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.preferences.*
 
 abstract class ButtonPanelView<T : View>(
-        context: Context
+        context: Context,
+        val preferences: Preferences
 ) : LinearLayout(context),
     Preferences.Listener {
 
@@ -45,21 +45,14 @@ abstract class ButtonPanelView<T : View>(
             setupButtons()
         }
 
-    var preferences: Preferences? = null
     var buttons = mutableListOf<T>()
-
-    init {
-        if (context is HabitsActivity) {
-            preferences = context.appComponent.preferences
-        }
-    }
 
     override fun onCheckmarkSequenceChanged() {
         inflateButtons()
     }
 
     protected fun inflateButtons() {
-        val reverse = preferences?.isCheckmarkSequenceReversed ?: false
+        val reverse = preferences.isCheckmarkSequenceReversed
 
         buttons.clear()
         repeat(buttonCount) { buttons.add(createButton()) }
@@ -73,11 +66,11 @@ abstract class ButtonPanelView<T : View>(
 
     public override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        preferences?.addListener(this)
+        preferences.addListener(this)
     }
 
     public override fun onDetachedFromWindow() {
-        preferences?.removeListener(this)
+        preferences.removeListener(this)
         super.onDetachedFromWindow()
     }
 
@@ -91,5 +84,5 @@ abstract class ButtonPanelView<T : View>(
 
     protected abstract fun setupButtons()
 
-    abstract fun createButton(): T
+    protected abstract fun createButton(): T
 }

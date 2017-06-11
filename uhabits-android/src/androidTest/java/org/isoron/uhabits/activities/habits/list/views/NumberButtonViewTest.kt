@@ -41,11 +41,10 @@ class NumberButtonViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        view = NumberButtonView(targetContext).apply {
+        view = NumberButtonView(targetContext, prefs).apply {
             units = "steps"
             threshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
-            preferences = prefs
             onEdit = { edited = true }
             onInvalidEdit = { invalidEdited = true }
         }

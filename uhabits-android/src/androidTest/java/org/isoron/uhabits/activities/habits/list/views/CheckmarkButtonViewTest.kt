@@ -40,12 +40,11 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        view = CheckmarkButtonView(targetContext).apply {
+        view = CheckmarkButtonView(targetContext, prefs).apply {
             value = Checkmark.UNCHECKED
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { toggled = true }
             onInvalidToggle = { invalidToggled = true }
-            preferences = prefs
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }

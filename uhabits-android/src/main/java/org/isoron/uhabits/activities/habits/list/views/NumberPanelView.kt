@@ -20,15 +20,13 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
-import android.util.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.utils.AttributeSetUtils.*
-import org.isoron.uhabits.utils.PaletteUtils.*
-import java.util.*
 
 class NumberPanelView(
-        context: Context
-) : ButtonPanelView<NumberButtonView>(context) {
+        context: Context,
+        preferences: Preferences
+) : ButtonPanelView<NumberButtonView>(context, preferences) {
 
     var values = DoubleArray(0)
         set(values) {
@@ -66,22 +64,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    constructor(ctx: Context, attrs: AttributeSet) : this(ctx) {
-        val paletteColor = getIntAttribute(ctx, attrs, "color", 0)
-        color = getAndroidTestColor(paletteColor)
-        buttonCount = getIntAttribute(ctx, attrs, "button_count", 5)
-        threshold = getIntAttribute(ctx, attrs, "threshold", 1).toDouble()
-        units = getAttribute(ctx, attrs, "unit", "min") ?: ""
-        if (isInEditMode) initEditMode()
-    }
-
-    fun initEditMode() {
-        val values = DoubleArray(buttonCount)
-        values.map { Random().nextDouble() * (threshold * 3) }
-        this.values = values
-    }
-
-    override fun createButton() = NumberButtonView(context)
+    override fun createButton() = NumberButtonView(context, preferences)
 
     @Synchronized
     override fun setupButtons() {

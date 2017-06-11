@@ -42,7 +42,7 @@ class HabitCardViewTest : BaseViewTest() {
         habit1 = fixtures.createLongHabit()
         habit2 = fixtures.createLongNumericalHabit()
 
-        view = HabitCardView(targetContext).apply {
+        view = HabitCardView(targetContext, prefs).apply {
             habit = habit1
             values = habit1.checkmarks.allValues
             score = habit1.scores.todayValue

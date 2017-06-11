@@ -22,16 +22,12 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.*
 import android.graphics.*
 import android.text.*
-import android.util.*
 import android.view.*
 import android.view.View.*
 import org.isoron.androidbase.utils.*
 import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.utils.AttributeSetUtils.*
-import org.isoron.uhabits.utils.PaletteUtils.*
 import java.text.*
 
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
@@ -51,7 +47,8 @@ fun Double.toShortString(): String = when {
 }
 
 class NumberButtonView(
-        context: Context
+        context: Context,
+        val preferences: Preferences
 ) : View(context),
     OnClickListener,
     OnLongClickListener {
@@ -82,7 +79,6 @@ class NumberButtonView(
 
     var onEdit: () -> Unit = {}
     var onInvalidEdit: () -> Unit = {}
-    var preferences: Preferences? = null
     private var drawer: Drawer = Drawer(context)
 
     init {
@@ -90,24 +86,8 @@ class NumberButtonView(
         setOnLongClickListener(this)
     }
 
-    constructor(ctx: Context, attrs: AttributeSet) : this(ctx) {
-        val color = getIntAttribute(ctx, attrs, "color", 0)
-        val value = getIntAttribute(ctx, attrs, "value", 0)
-        val threshold = getIntAttribute(ctx, attrs, "threshold", 1)
-        val unit = getAttribute(ctx, attrs, "unit", "min")
-
-        this.color = getAndroidTestColor(color)
-        this.threshold = threshold.toDouble()
-        this.value = value.toDouble()
-        if (unit != null) this.units = unit
-
-        if (ctx is HabitsActivity) {
-            preferences = ctx.appComponent.preferences
-        }
-    }
-
     override fun onClick(v: View) {
-        if (preferences?.isShortToggleEnabled ?: false) onEdit()
+        if (preferences.isShortToggleEnabled) onEdit()
         else onInvalidEdit()
     }
 

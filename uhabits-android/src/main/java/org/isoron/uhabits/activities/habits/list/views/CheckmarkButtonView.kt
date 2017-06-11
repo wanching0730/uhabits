@@ -22,20 +22,17 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.*
 import android.graphics.*
 import android.text.*
-import android.util.*
 import android.view.*
 import android.view.View.MeasureSpec.*
 import org.isoron.androidbase.utils.*
 import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.utils.AttributeSetUtils.*
 
 class CheckmarkButtonView(
-        context: Context
+        context: Context,
+        val preferences: Preferences
 ) : View(context),
     View.OnClickListener,
     View.OnLongClickListener {
@@ -52,7 +49,6 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var preferences: Preferences? = null
     var onToggle: () -> Unit = {}
     var onInvalidToggle: () -> Unit = {}
 
@@ -62,16 +58,6 @@ class CheckmarkButtonView(
         isFocusable = false
         setOnClickListener(this)
         setOnLongClickListener(this)
-
-        if (context is HabitsActivity) {
-            preferences = context.appComponent.preferences
-        }
-    }
-
-    constructor(ctx: Context, attrs: AttributeSet) : this(ctx) {
-        val paletteColor = getIntAttribute(ctx, attrs, "color", 0)
-        this.color = PaletteUtils.getAndroidTestColor(paletteColor)
-        this.value = getIntAttribute(ctx, attrs, "value", 0)
     }
 
     fun performToggle() {
@@ -85,7 +71,7 @@ class CheckmarkButtonView(
     }
 
     override fun onClick(v: View) {
-        if (preferences?.isShortToggleEnabled ?: true) performToggle()
+        if (preferences.isShortToggleEnabled) performToggle()
         else onInvalidToggle()
     }
 

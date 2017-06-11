@@ -17,15 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.list.views;
+package org.isoron.uhabits.activities.habits.list.views
 
-import android.support.v7.widget.*;
-import android.view.*;
+import android.support.v7.widget.*
+import android.view.*
 
-public class HabitCardViewHolder extends RecyclerView.ViewHolder
-{
-    public HabitCardViewHolder(View itemView)
-    {
-        super(itemView);
-    }
-}
+class HabitCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
