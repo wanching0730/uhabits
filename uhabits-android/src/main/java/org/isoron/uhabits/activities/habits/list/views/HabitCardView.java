@@ -233,7 +233,7 @@ public class HabitCardView extends FrameLayout
 
         numberPanel = new NumberPanelView(context);
         numberPanel.setVisibility(GONE);
-        numberPanel.setOnInvalid(() ->
+        numberPanel.setOnInvalidEdit(() ->
         {
             onInvalidEditListener.onInvalidEdit();
             return Unit.INSTANCE;
