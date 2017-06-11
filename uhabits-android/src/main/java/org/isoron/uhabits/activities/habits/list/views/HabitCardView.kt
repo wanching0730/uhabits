@@ -104,24 +104,12 @@ class HabitCardView(
     private var scoreRing: RingView
 
     init {
-        clipToPadding = false
-        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        val margin = dpToPixels(context, 3f).toInt()
-        setPadding(margin, 0, margin, margin)
-
-        innerFrame = LinearLayout(context).apply {
-            gravity = Gravity.CENTER_VERTICAL
-            orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            if (SDK_INT >= LOLLIPOP) elevation = dpToPixels(context, 1f)
-        }
-
         scoreRing = RingView(context).apply {
             val thickness = dpToPixels(context, 3f)
-            val ringMargin = dpToPixels(context, 8f).toInt()
+            val margin = dpToPixels(context, 8f).toInt()
             val ringSize = dpToPixels(context, 15f).toInt()
             layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
-                setMargins(ringMargin, 0, ringMargin, 0)
+                setMargins(margin, 0, margin, 0)
                 gravity = Gravity.CENTER
             }
             setThickness(thickness)
@@ -151,16 +139,29 @@ class HabitCardView(
             onInvalidEdit = { this@HabitCardView.onInvalidEdit() }
         }
 
-        innerFrame.addView(scoreRing)
-        innerFrame.addView(label)
-        innerFrame.addView(checkmarkPanel)
-        innerFrame.addView(numberPanel)
-        addView(innerFrame)
+        innerFrame = LinearLayout(context).apply {
+            gravity = Gravity.CENTER_VERTICAL
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            if (SDK_INT >= LOLLIPOP) elevation = dpToPixels(context, 1f)
 
-        innerFrame.setOnTouchListener { v, event ->
-            if (SDK_INT >= LOLLIPOP) v.background.setHotspot(event.x, event.y)
-            false
+            addView(scoreRing)
+            addView(label)
+            addView(checkmarkPanel)
+            addView(numberPanel)
+
+            setOnTouchListener { v, event ->
+                if (SDK_INT >= LOLLIPOP) v.background.setHotspot(event.x,
+                                                                 event.y)
+                false
+            }
         }
+
+        clipToPadding = false
+        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        val margin = dpToPixels(context, 3f).toInt()
+        setPadding(margin, 0, margin, margin)
+        addView(innerFrame)
     }
 
     override fun onModelChange() {
