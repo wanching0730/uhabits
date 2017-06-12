@@ -56,6 +56,13 @@ public class HabitCardListView extends RecyclerView
     @Nullable
     private Preferences preferences;
 
+    public HabitCardListView(Context context,
+                             @NonNull HabitCardListAdapter adapter)
+    {
+        this(context, (AttributeSet) null);
+        setAdapter(adapter);
+    }
+
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);

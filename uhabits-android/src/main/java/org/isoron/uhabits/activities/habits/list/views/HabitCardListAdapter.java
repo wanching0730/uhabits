@@ -78,7 +78,8 @@ public class HabitCardListAdapter
         this.midnightTimer = midnightTimer;
 
         cache.setListener(this);
-        cache.setCheckmarkCount(ListHabitsRootView.MAX_CHECKMARK_COUNT);
+        cache.setCheckmarkCount(
+            ListHabitsRootView.Companion.getMAX_CHECKMARK_COUNT());
         cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);

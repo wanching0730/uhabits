@@ -33,7 +33,9 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
 public class HeaderView extends ScrollableChart
     implements Preferences.Listener, MidnightTimer.MidnightListener
@@ -170,6 +172,11 @@ public class HeaderView extends ScrollableChart
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
         paint.setColor(sr.getColor(R.attr.mediumContrastTextColor));
+        setBackgroundColor(sr.getColor(R.attr.headerBackgroundColor));
+
+        if(SDK_INT >= LOLLIPOP) {
+            setElevation(InterfaceUtils.dpToPixels(getContext(), 2.0f));
+        }
 
         rect = new RectF();
 

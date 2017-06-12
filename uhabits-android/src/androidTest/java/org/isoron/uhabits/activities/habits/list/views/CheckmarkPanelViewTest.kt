@@ -93,6 +93,7 @@ class CheckmarkPanelViewTest : BaseViewTest() {
         view.buttons[0].performClick()
         view.buttons[2].performClick()
         view.buttons[3].performClick()
+        Thread.sleep(500)
         assertThat(timestamps, equalTo(longArrayOf(day(0), day(2), day(3))))
     }
 
@@ -104,6 +105,7 @@ class CheckmarkPanelViewTest : BaseViewTest() {
         view.buttons[0].performClick()
         view.buttons[2].performClick()
         view.buttons[3].performClick()
+        Thread.sleep(500)
         assertThat(timestamps, equalTo(longArrayOf(day(3), day(5), day(6))))
     }
 }
