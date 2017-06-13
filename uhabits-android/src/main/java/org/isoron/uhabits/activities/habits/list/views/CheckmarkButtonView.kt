@@ -92,19 +92,14 @@ class CheckmarkButtonView(
     }
 
     private inner class Drawer {
-
         private val rect = RectF()
-        private val lowContrastColor: Int
+        private val lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
 
         private val paint = TextPaint().apply {
             typeface = getFontAwesome()
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
             textSize = dim(R.dimen.smallTextSize)
-        }
-
-        init {
-            lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
         }
 
         fun draw(canvas: Canvas) {

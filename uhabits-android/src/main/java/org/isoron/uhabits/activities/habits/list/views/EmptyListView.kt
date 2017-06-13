@@ -31,9 +31,9 @@ import org.isoron.uhabits.utils.*
 class EmptyListView(context: Context) : LinearLayout(context) {
 
     init {
-        visibility = BaseRootView.GONE
-        gravity = Gravity.CENTER
         orientation = VERTICAL
+        gravity = Gravity.CENTER
+        visibility = BaseRootView.GONE
 
         addView(TextView(context).apply {
             text = str(R.string.fa_star_half_o)

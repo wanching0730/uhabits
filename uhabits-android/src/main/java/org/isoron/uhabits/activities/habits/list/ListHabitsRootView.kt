@@ -122,7 +122,7 @@ class ListHabitsRootView @Inject constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         val count = getCheckmarkCount()
-        header.setButtonCount(count)
+        header.buttonCount = count
         header.setMaxDataOffset(max(MAX_CHECKMARK_COUNT - count, 0))
         listView.setCheckmarkCount(count)
         super.onSizeChanged(w, h, oldw, oldh)

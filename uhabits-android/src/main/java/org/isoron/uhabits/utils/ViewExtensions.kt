@@ -68,7 +68,13 @@ fun ViewGroup.buildToolbar(): Toolbar {
     return inflater.inflate(R.layout.toolbar, null) as Toolbar
 }
 
-fun Int.toMeasureSpec(mode: Int) = View.MeasureSpec.makeMeasureSpec(this, mode)
+fun Int.toMeasureSpec(mode: Int) =
+        View.MeasureSpec.makeMeasureSpec(this, mode)
+
+fun Float.toMeasureSpec(mode: Int) =
+        View.MeasureSpec.makeMeasureSpec(toInt(), mode)
+
+fun View.isRTL() = InterfaceUtils.isLayoutRtl(this)
 fun View.getFontAwesome() = InterfaceUtils.getFontAwesome(context)!!
 fun View.dim(id: Int) = InterfaceUtils.getDimension(context, id)
 fun View.sp(value: Float) = InterfaceUtils.spToPixels(context, value)

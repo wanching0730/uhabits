@@ -76,13 +76,12 @@ abstract class ButtonPanelView<T : View>(
 
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
         val buttonWidth = dim(R.dimen.checkmarkWidth)
-        val buttonHeight = dim(R.dimen.checkmarkHeight).toInt()
-        val width = (buttonWidth * buttonCount).toInt()
+        val buttonHeight = dim(R.dimen.checkmarkHeight)
+        val width = (buttonWidth * buttonCount)
         super.onMeasure(width.toMeasureSpec(EXACTLY),
                         buttonHeight.toMeasureSpec(EXACTLY))
     }
 
     protected abstract fun setupButtons()
-
     protected abstract fun createButton(): T
 }
