@@ -24,11 +24,10 @@ import android.graphics.*
 import android.text.*
 import android.view.*
 import android.view.View.MeasureSpec.*
-import org.isoron.androidbase.utils.*
-import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.utils.*
 
 class CheckmarkButtonView(
         context: Context,
@@ -52,7 +51,7 @@ class CheckmarkButtonView(
     var onToggle: () -> Unit = {}
     var onInvalidToggle: () -> Unit = {}
 
-    private var drawer = Drawer(context)
+    private var drawer = Drawer()
 
     init {
         isFocusable = false
@@ -88,25 +87,24 @@ class CheckmarkButtonView(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = resources.getDimensionPixelSize(R.dimen.checkmarkHeight)
         val width = resources.getDimensionPixelSize(R.dimen.checkmarkWidth)
-        super.onMeasure(makeMeasureSpec(width, EXACTLY),
-                        makeMeasureSpec(height, EXACTLY))
+        super.onMeasure(width.toMeasureSpec(EXACTLY),
+                        height.toMeasureSpec(EXACTLY))
     }
 
-    private inner class Drawer(context: Context) {
+    private inner class Drawer {
 
         private val rect = RectF()
-        private val styledRes = StyledResources(context)
         private val lowContrastColor: Int
 
         private val paint = TextPaint().apply {
-            typeface = getFontAwesome(context)
+            typeface = getFontAwesome()
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
-            textSize = getDimension(context, R.dimen.smallTextSize)
+            textSize = dim(R.dimen.smallTextSize)
         }
 
         init {
-            lowContrastColor = styledRes.getColor(R.attr.lowContrastTextColor)
+            lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
         }
 
         fun draw(canvas: Canvas) {

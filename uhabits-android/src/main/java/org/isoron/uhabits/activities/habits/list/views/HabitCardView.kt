@@ -27,8 +27,6 @@ import android.text.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
-import org.isoron.androidbase.utils.*
-import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
@@ -105,9 +103,9 @@ class HabitCardView(
 
     init {
         scoreRing = RingView(context).apply {
-            val thickness = dpToPixels(context, 3f)
-            val margin = dpToPixels(context, 8f).toInt()
-            val ringSize = dpToPixels(context, 15f).toInt()
+            val thickness = dp(3f)
+            val margin = dp(8f).toInt()
+            val ringSize = dp(15f).toInt()
             layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
                 setMargins(margin, 0, margin, 0)
                 gravity = Gravity.CENTER
@@ -143,7 +141,7 @@ class HabitCardView(
             gravity = Gravity.CENTER_VERTICAL
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            if (SDK_INT >= LOLLIPOP) elevation = dpToPixels(context, 1f)
+            if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
 
             addView(scoreRing)
             addView(label)
@@ -151,15 +149,15 @@ class HabitCardView(
             addView(numberPanel)
 
             setOnTouchListener { v, event ->
-                if (SDK_INT >= LOLLIPOP) v.background.setHotspot(event.x,
-                                                                 event.y)
+                if (SDK_INT >= LOLLIPOP)
+                    v.background.setHotspot(event.x, event.y)
                 false
             }
         }
 
         clipToPadding = false
         layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        val margin = dpToPixels(context, 3f).toInt()
+        val margin = dp(3f).toInt()
         setPadding(margin, 0, margin, margin)
         addView(innerFrame)
     }
@@ -198,9 +196,8 @@ class HabitCardView(
     private fun copyAttributesFrom(h: Habit) {
 
         fun getActiveColor(habit: Habit): Int {
-            val res = StyledResources(context)
             return when (habit.isArchived) {
-                true -> res.getColor(R.attr.mediumContrastTextColor)
+                true -> sres.getColor(R.attr.mediumContrastTextColor)
                 false -> PaletteUtils.getColor(context, habit.color)
             }
         }
@@ -241,10 +238,9 @@ class HabitCardView(
 
     private fun updateBackground(isSelected: Boolean) {
         if (SDK_INT < LOLLIPOP) {
-            val res = StyledResources(context)
             val background = when (isSelected) {
-                true -> res.getDrawable(R.attr.selectedBackground)
-                false -> res.getDrawable(R.attr.cardBackground)
+                true -> sres.getDrawable(R.attr.selectedBackground)
+                false -> sres.getDrawable(R.attr.cardBackground)
             }
             innerFrame.setBackgroundDrawable(background)
             return

@@ -23,9 +23,9 @@ import android.content.*
 import android.view.*
 import android.view.View.MeasureSpec.*
 import android.widget.*
-import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.utils.*
 
 abstract class ButtonPanelView<T : View>(
         context: Context,
@@ -75,11 +75,11 @@ abstract class ButtonPanelView<T : View>(
     }
 
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
-        val buttonWidth = getDimension(context, R.dimen.checkmarkWidth)
-        val buttonHeight = getDimension(context, R.dimen.checkmarkHeight)
-        val width = buttonWidth * buttonCount
-        super.onMeasure(makeMeasureSpec(width.toInt(), EXACTLY),
-                        makeMeasureSpec(buttonHeight.toInt(), EXACTLY))
+        val buttonWidth = dim(R.dimen.checkmarkWidth)
+        val buttonHeight = dim(R.dimen.checkmarkHeight).toInt()
+        val width = (buttonWidth * buttonCount).toInt()
+        super.onMeasure(width.toMeasureSpec(EXACTLY),
+                        buttonHeight.toMeasureSpec(EXACTLY))
     }
 
     protected abstract fun setupButtons()

@@ -79,7 +79,7 @@ public class HabitCardListAdapter
 
         cache.setListener(this);
         cache.setCheckmarkCount(
-            ListHabitsRootView.Companion.getMAX_CHECKMARK_COUNT());
+            ListHabitsRootViewKt.MAX_CHECKMARK_COUNT);
         cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);

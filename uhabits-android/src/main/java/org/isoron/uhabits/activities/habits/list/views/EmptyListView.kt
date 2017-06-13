@@ -21,34 +21,33 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
 import android.view.*
+import android.view.Gravity.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import org.isoron.androidbase.activities.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.utils.*
 
 class EmptyListView(context: Context) : LinearLayout(context) {
 
     init {
-        val sr = StyledResources(context)
-
         visibility = BaseRootView.GONE
         gravity = Gravity.CENTER
         orientation = VERTICAL
 
         addView(TextView(context).apply {
-            text = resources.getString(R.string.fa_star_half_o)
-            typeface = InterfaceUtils.getFontAwesome(context)
-            textSize = InterfaceUtils.spToPixels(context, 40.0f)
-            gravity = Gravity.CENTER
-            setTextColor(sr.getColor(R.attr.mediumContrastTextColor))
+            text = str(R.string.fa_star_half_o)
+            typeface = getFontAwesome()
+            textSize = sp(40.0f)
+            gravity = CENTER
+            setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
         }, MATCH_PARENT, WRAP_CONTENT)
 
         addView(TextView(context).apply {
-            text = resources.getString(R.string.no_habits_found)
-            gravity = Gravity.CENTER
-            setPadding(0, InterfaceUtils.dpToPixels(context, 20.0f).toInt(), 0, 0)
-            setTextColor(sr.getColor(R.attr.mediumContrastTextColor))
+            text = str(R.string.no_habits_found)
+            gravity = CENTER
+            setPadding(0, dp(20.0f).toInt(), 0, 0)
+            setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
         }, MATCH_PARENT, WRAP_CONTENT)
     }
 }

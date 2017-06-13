@@ -22,18 +22,18 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.*
 import android.view.*
 import android.view.View.MeasureSpec.*
-import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.utils.*
 
 @Suppress("DEPRECATION")
 class ShadowView(context: Context) : View(context) {
     init {
-        background = resources.getDrawable(R.drawable.toolbar_shadow)
         alpha = 0.2f
+        background = resources.getDrawable(R.drawable.shadow)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val height = dpToPixels(context, 2.0f).toInt()
-        super.onMeasure(widthMeasureSpec, makeMeasureSpec(height, EXACTLY))
+        super.onMeasure(widthMeasureSpec,
+                        dp(2.0f).toInt().toMeasureSpec(EXACTLY))
     }
 }

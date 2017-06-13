@@ -26,9 +26,9 @@ import android.graphics.Color.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
-import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.utils.*
 
 class HintView(
         context: Context,
@@ -41,8 +41,8 @@ class HintView(
         isClickable = true
         visibility = GONE
         orientation = VERTICAL
-        val p1 = dpToPixels(context, 16.0f).toInt()
-        val p2 = dpToPixels(context, 4.0f).toInt()
+        val p1 = dp(16.0f).toInt()
+        val p2 = dp(4.0f).toInt()
         setPadding(p1, p1, p2, p1)
         setBackgroundColor(resources.getColor(R.color.indigo_500))
 
@@ -54,7 +54,7 @@ class HintView(
 
         hintContent = TextView(context).apply {
             setTextColor(WHITE)
-            setPadding(0, dpToPixels(context, 5.0f).toInt(), 0, 0)
+            setPadding(0, dp(5.0f).toInt(), 0, 0)
         }
 
         addView(hintTitle, WRAP_CONTENT, WRAP_CONTENT)
