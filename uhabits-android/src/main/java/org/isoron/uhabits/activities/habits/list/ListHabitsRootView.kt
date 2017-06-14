@@ -23,7 +23,6 @@ import android.content.*
 import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
 import android.support.v7.widget.Toolbar
-import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import org.isoron.androidbase.activities.*
@@ -50,19 +49,15 @@ class ListHabitsRootView @Inject constructor(
         runner: TaskRunner,
         private val listAdapter: HabitCardListAdapter
 ) : BaseRootView(context), ModelObservable.Listener {
-    val listView: HabitCardListView
-    val llEmpty: ViewGroup
-    val tbar: Toolbar
-    val progressBar: ProgressBar
+
+    val listView = HabitCardListView(context, preferences, listAdapter)
+    val llEmpty = EmptyListView(context)
+    val tbar = buildToolbar()
+    val progressBar = TaskProgressBar(context, runner)
     val hintView: HintView
-    val header: HeaderView
+    val header = HeaderView(context, preferences, midnightTimer)
 
     init {
-        tbar = buildToolbar()
-        header = HeaderView(context, preferences, midnightTimer)
-        listView = HabitCardListView(context, listAdapter)
-        llEmpty = EmptyListView(context)
-        progressBar = TaskProgressBar(context, runner)
         val hints = resources.getStringArray(R.array.hints)
         val hintList = hintListFactory.create(hints)
         hintView = HintView(context, hintList)
@@ -101,11 +96,11 @@ class ListHabitsRootView @Inject constructor(
         val listController = HabitCardListController(listAdapter)
         listController.setHabitListener(controller)
         listController.setSelectionListener(menu)
-        listView.setController(listController)
+        listView.controller = listController
         menu.setListController(listController)
         header.setScrollController(object : ScrollableChart.ScrollController {
             override fun onDataOffsetChanged(newDataOffset: Int) {
-                listView.setDataOffset(newDataOffset)
+                listView.dataOffset = newDataOffset
             }
         })
     }
@@ -124,7 +119,7 @@ class ListHabitsRootView @Inject constructor(
         val count = getCheckmarkCount()
         header.buttonCount = count
         header.setMaxDataOffset(max(MAX_CHECKMARK_COUNT - count, 0))
-        listView.setCheckmarkCount(count)
+        listView.checkmarkCount = count
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
