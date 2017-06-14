@@ -47,12 +47,15 @@ import java.util.*;
 
 import javax.inject.*;
 
+import kotlin.*;
+
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 @ActivityScope
 public class ListHabitsScreen extends BaseScreen
-    implements CommandRunner.Listener, ListHabitsBehavior.Screen,
+    implements CommandRunner.Listener,
+               ListHabitsBehavior.Screen,
                ListHabitsMenuBehavior.Screen,
                ListHabitsSelectionMenuBehavior.Screen
 {
@@ -100,9 +103,12 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
-                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull EditHabitDialogFactory editHabitDialogFactory,
+                            @NonNull
+                                ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                            @NonNull
+                                ColorPickerDialogFactory colorPickerFactory,
+                            @NonNull
+                                EditHabitDialogFactory editHabitDialogFactory,
                             @NonNull Preferences prefs)
     {
         super(activity);
@@ -116,28 +122,11 @@ public class ListHabitsScreen extends BaseScreen
         this.themeSwitcher = themeSwitcher;
     }
 
-    @StringRes
-    private Integer getExecuteString(@NonNull Command command)
+    @Override
+    public void applyTheme()
     {
-        if(command instanceof ArchiveHabitsCommand)
-            return R.string.toast_habit_archived;
-
-        if(command instanceof ChangeHabitColorCommand)
-            return R.string.toast_habit_changed;
-
-        if(command instanceof CreateHabitCommand)
-            return R.string.toast_habit_created;
-
-        if(command instanceof DeleteHabitsCommand)
-            return R.string.toast_habit_deleted;
-
-        if(command instanceof EditHabitCommand)
-            return R.string.toast_habit_changed;
-
-        if(command instanceof UnarchiveHabitsCommand)
-            return R.string.toast_habit_unarchived;
-
-        return null;
+        themeSwitcher.apply();
+        activity.restartWithFade(ListHabitsActivity.class);
     }
 
     public void onAttached()
@@ -173,13 +162,6 @@ public class ListHabitsScreen extends BaseScreen
     }
 
     @Override
-    public void applyTheme()
-    {
-        themeSwitcher.apply();
-        activity.restartWithFade(ListHabitsActivity.class);
-    }
-
-    @Override
     public void showAboutScreen()
     {
         Intent intent = intentFactory.startAboutActivity(activity);
@@ -188,7 +170,8 @@ public class ListHabitsScreen extends BaseScreen
 
     @Override
     public void showColorPicker(int defaultColor,
-                                @NonNull OnColorPickedCallback callback) {
+                                @NonNull OnColorPickedCallback callback)
+    {
         ColorPickerDialog picker = colorPickerFactory.create(defaultColor);
         picker.setListener(callback);
         activity.showDialog(picker, "picker");
@@ -363,6 +346,30 @@ public class ListHabitsScreen extends BaseScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS);
     }
 
+    @StringRes
+    private Integer getExecuteString(@NonNull Command command)
+    {
+        if (command instanceof ArchiveHabitsCommand)
+            return R.string.toast_habit_archived;
+
+        if (command instanceof ChangeHabitColorCommand)
+            return R.string.toast_habit_changed;
+
+        if (command instanceof CreateHabitCommand)
+            return R.string.toast_habit_created;
+
+        if (command instanceof DeleteHabitsCommand)
+            return R.string.toast_habit_deleted;
+
+        if (command instanceof EditHabitCommand)
+            return R.string.toast_habit_changed;
+
+        if (command instanceof UnarchiveHabitsCommand)
+            return R.string.toast_habit_unarchived;
+
+        return null;
+    }
+
     private void onOpenDocumentResult(int resultCode, Intent data)
     {
         if (controller == null) return;
@@ -378,7 +385,11 @@ public class ListHabitsScreen extends BaseScreen
             File tempFile = File.createTempFile("import", "", cacheDir);
 
             FileUtils.copy(is, tempFile);
-            controller.onImportData(tempFile, () -> tempFile.delete());
+            controller.onImportData(tempFile, () ->
+            {
+                tempFile.delete();
+                return Unit.INSTANCE;
+            });
         }
         catch (IOException e)
         {

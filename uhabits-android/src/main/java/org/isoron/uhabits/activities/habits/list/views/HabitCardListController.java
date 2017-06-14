@@ -200,7 +200,7 @@ public class HabitCardListController implements HabitCardListView.Controller,
 
     public interface HabitListener
     {
-        void onEdit(Habit habit, long timestamp);
+        void onEdit(Habit h, long t);
 
         /**
          * Called when the user clicks a habit.
@@ -222,7 +222,7 @@ public class HabitCardListController implements HabitCardListView.Controller,
 
         void onInvalidToggle();
 
-        void onToggle(Habit habit, long timestamp);
+        void onToggle(Habit h, long t);
     }
 
     /**

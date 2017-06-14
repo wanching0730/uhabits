@@ -97,7 +97,7 @@ class ListHabitsRootView @Inject constructor(
         listController.setHabitListener(controller)
         listController.setSelectionListener(menu)
         listView.controller = listController
-        menu.setListController(listController)
+        menu.listController = listController
         header.setScrollController(object : ScrollableChart.ScrollController {
             override fun onDataOffsetChanged(newDataOffset: Int) {
                 listView.dataOffset = newDataOffset
