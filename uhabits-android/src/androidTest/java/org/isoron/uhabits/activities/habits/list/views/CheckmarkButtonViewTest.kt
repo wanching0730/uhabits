@@ -40,7 +40,7 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        view = CheckmarkButtonView(targetContext, prefs).apply {
+        view = component.getCheckmarkButtonViewFactory().create().apply {
             value = Checkmark.UNCHECKED
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { toggled = true }

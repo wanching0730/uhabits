@@ -24,14 +24,17 @@ import android.graphics.*
 import android.text.*
 import android.view.*
 import android.view.View.MeasureSpec.*
+import com.google.auto.factory.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.utils.*
 
+@AutoFactory
 class CheckmarkButtonView(
-        context: Context,
-        val preferences: Preferences
+        @Provided @ActivityContext context: Context,
+        @Provided val preferences: Preferences
 ) : View(context),
     View.OnClickListener,
     View.OnLongClickListener {

@@ -51,7 +51,6 @@ class ListHabitsScreenTest : BaseAndroidUnitTest() {
     @Mock lateinit var habit: Habit
     @Mock lateinit var intent: Intent
     @Mock lateinit var rootView: ListHabitsRootView
-    @Mock lateinit var controller: ListHabitsController
     @Mock lateinit var confirmDeleteDialogFactory: ConfirmDeleteDialogFactory
     @Mock lateinit var intentFactory: IntentFactory
     @Mock lateinit var colorPickerDialogFactory: ColorPickerDialogFactory

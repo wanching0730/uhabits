@@ -49,7 +49,7 @@ class CheckmarkPanelViewTest : BaseViewTest() {
                                     UNCHECKED,
                                     CHECKED_EXPLICITLY)
 
-        view = CheckmarkPanelView(targetContext, prefs).apply {
+        view = component.getCheckmarkPanelViewFactory().create().apply {
             values = checkmarks
             buttonCount = 4
             color = PaletteUtils.getAndroidTestColor(7)

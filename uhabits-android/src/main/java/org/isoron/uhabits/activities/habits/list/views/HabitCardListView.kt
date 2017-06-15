@@ -25,14 +25,18 @@ import android.support.v7.widget.*
 import android.support.v7.widget.helper.*
 import android.support.v7.widget.helper.ItemTouchHelper.*
 import android.view.*
+import com.google.auto.factory.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 
+@AutoFactory
 class HabitCardListView(
-        context: Context,
-        var preferences: Preferences,
-        var adapter: HabitCardListAdapter
+        @Provided @ActivityContext context: Context,
+        @Provided private var preferences: Preferences,
+        @Provided private var adapter: HabitCardListAdapter,
+        @Provided private var cardViewFactory: HabitCardViewFactory
 ) : RecyclerView(context) {
 
     var checkmarkCount: Int = 0
@@ -59,7 +63,7 @@ class HabitCardListView(
     }
 
     fun createHabitCardView(): View {
-        return HabitCardView(context, preferences)
+        return cardViewFactory.create()
     }
 
     fun bindCardView(holder: HabitCardViewHolder,

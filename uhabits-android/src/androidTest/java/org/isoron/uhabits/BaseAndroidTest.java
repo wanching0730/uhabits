@@ -31,7 +31,9 @@ import android.util.*;
 import junit.framework.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
@@ -67,9 +69,11 @@ public class BaseAndroidTest extends TestCase
 
     protected CountDownLatch latch;
 
-    protected AndroidTestComponent component;
+    protected HabitsApplicationTestComponent appComponent;
 
     protected ModelFactory modelFactory;
+
+    protected HabitsActivityTestComponent component;
 
     @Override
     @Before
@@ -85,21 +89,29 @@ public class BaseAndroidTest extends TestCase
         setTheme(R.style.AppBaseTheme);
         setLocale("en", "US");
 
-        component = DaggerAndroidTestComponent
+        latch = new CountDownLatch(1);
+
+        appComponent = DaggerHabitsApplicationTestComponent
             .builder()
             .appContextModule(new AppContextModule(targetContext.getApplicationContext()))
             .build();
 
-        HabitsApplication.setComponent(component);
-        prefs = component.getPreferences();
-        habitList = component.getHabitList();
-        taskRunner = component.getTaskRunner();
-        logger = component.getHabitsLogger();
+        HabitsApplication.setComponent(appComponent);
+        prefs = appComponent.getPreferences();
+        habitList = appComponent.getHabitList();
+        taskRunner = appComponent.getTaskRunner();
+        logger = appComponent.getHabitsLogger();
+        modelFactory = appComponent.getModelFactory();
 
-        modelFactory = component.getModelFactory();
+        Habit habit = fixtures.createEmptyHabit();
         fixtures = new HabitFixtures(modelFactory, habitList);
 
-        latch = new CountDownLatch(1);
+        component = DaggerHabitsActivityTestComponent
+            .builder()
+            .activityModule(new ActivityModule((BaseActivity) targetContext))
+            .habitsApplicationComponent(appComponent)
+            .habitModule(new HabitModule(habit))
+            .build();
     }
 
     protected void assertWidgetProviderIsInstalled(Class componentClass)

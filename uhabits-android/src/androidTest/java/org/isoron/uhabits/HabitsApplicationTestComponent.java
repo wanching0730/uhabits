@@ -33,7 +33,8 @@ import dagger.*;
     SingleThreadModule.class,
     SQLModelFactory.class
 })
-public interface AndroidTestComponent extends HabitsApplicationComponent
+public interface HabitsApplicationTestComponent
+    extends HabitsApplicationComponent
 {
 
 }
@@ -43,7 +44,7 @@ class SingleThreadModule
 {
     @Provides
     @AppScope
-    public static TaskRunner provideTaskRunner()
+    static TaskRunner provideTaskRunner()
     {
         return new SingleThreadTaskRunner();
     }

@@ -26,7 +26,6 @@ import com.activeandroid.query.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 import org.junit.*;
 import org.junit.rules.*;
@@ -56,7 +55,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         this.habitList = (SQLiteHabitList) super.habitList;
         fixtures.purgeHabits(habitList);
 
-        modelFactory = component.getModelFactory();
+        modelFactory = appComponent.getModelFactory();
 
         for (int i = 0; i < 10; i++)
         {

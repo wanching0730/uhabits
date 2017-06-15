@@ -41,8 +41,7 @@ class HabitCardViewTest : BaseViewTest() {
 
         habit1 = fixtures.createLongHabit()
         habit2 = fixtures.createLongNumericalHabit()
-
-        view = HabitCardView(targetContext, prefs).apply {
+        view = component.getHabitCardViewFactory().create().apply {
             habit = habit1
             values = habit1.checkmarks.allValues
             score = habit1.scores.todayValue

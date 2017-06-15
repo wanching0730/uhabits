@@ -27,6 +27,8 @@ import android.text.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
+import com.google.auto.factory.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
@@ -34,9 +36,11 @@ import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 
+@AutoFactory
 class HabitCardView(
-        context: Context,
-        preferences: Preferences
+        @Provided @ActivityContext context: Context,
+        @Provided preferences: Preferences,
+        @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
@@ -120,7 +124,7 @@ class HabitCardView(
             if (SDK_INT >= M) breakStrategy = Layout.BREAK_STRATEGY_BALANCED
         }
 
-        checkmarkPanel = CheckmarkPanelView(context, preferences).apply {
+        checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { t ->
                 triggerRipple(t)
                 habit?.let { onToggle(it, t) }

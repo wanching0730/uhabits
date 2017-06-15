@@ -150,7 +150,7 @@ public class ImportTest extends BaseAndroidTest
         assertTrue(file.exists());
         assertTrue(file.canRead());
 
-        GenericImporter importer = component.getGenericImporter();
+        GenericImporter importer = appComponent.getGenericImporter();
         assertThat(importer.canHandle(file), is(true));
 
         importer.importHabitsFromFile(file);

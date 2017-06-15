@@ -50,10 +50,11 @@ class ListHabitsRootView @Inject constructor(
         runner: TaskRunner,
         private val listAdapter: HabitCardListAdapter,
         private val controller: Lazy<ListHabitsController>,
-        private val selectionMenu: Lazy<ListHabitsSelectionMenu>
+        private val selectionMenu: Lazy<ListHabitsSelectionMenu>,
+        habitCardListViewFactory: HabitCardListViewFactory
 ) : BaseRootView(context), ModelObservable.Listener {
 
-    val listView = HabitCardListView(context, preferences, listAdapter)
+    val listView: HabitCardListView = habitCardListViewFactory.create()
     val llEmpty = EmptyListView(context)
     val tbar = buildToolbar()
     val progressBar = TaskProgressBar(context, runner)

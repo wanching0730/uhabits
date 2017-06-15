@@ -40,7 +40,7 @@ public class HabitRecordTest extends BaseAndroidTest
     {
         super.setUp();
 
-        Habit h = component.getModelFactory().buildHabit();
+        Habit h = appComponent.getModelFactory().buildHabit();
         h.setName("Hello world");
         h.setId(1000L);
 
@@ -53,7 +53,7 @@ public class HabitRecordTest extends BaseAndroidTest
     @Test
     public void testCopyFrom()
     {
-        Habit habit = component.getModelFactory().buildHabit();
+        Habit habit = appComponent.getModelFactory().buildHabit();
         habit.setName("Hello world");
         habit.setDescription("Did you greet the world today?");
         habit.setColor(1);

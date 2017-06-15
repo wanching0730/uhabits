@@ -20,13 +20,17 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
+import com.google.auto.factory.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 
+@AutoFactory
 class CheckmarkPanelView(
-        context: Context,
-        preferences: Preferences
+        @Provided @ActivityContext context: Context,
+        @Provided preferences: Preferences,
+        @Provided private val buttonFactory: CheckmarkButtonViewFactory
 ) : ButtonPanelView<CheckmarkButtonView>(context, preferences) {
 
     var values = IntArray(0)
@@ -53,7 +57,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    override fun createButton() = CheckmarkButtonView(context, preferences)
+    override fun createButton(): CheckmarkButtonView = buttonFactory.create()
 
     @Synchronized
     override fun setupButtons() {
