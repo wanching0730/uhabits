@@ -34,7 +34,7 @@ public abstract class HabitsActivity extends BaseActivity
 
     private HabitsApplicationComponent appComponent;
 
-    public HabitsActivityComponent getActivityComponent()
+    public HabitsActivityComponent getComponent()
     {
         return component;
     }

@@ -25,6 +25,7 @@ import android.os.Build.VERSION_CODES.*
 import android.support.v7.widget.Toolbar
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
+import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.views.*
@@ -47,7 +48,9 @@ class ListHabitsRootView @Inject constructor(
         preferences: Preferences,
         midnightTimer: MidnightTimer,
         runner: TaskRunner,
-        private val listAdapter: HabitCardListAdapter
+        private val listAdapter: HabitCardListAdapter,
+        private val controller: Lazy<ListHabitsController>,
+        private val selectionMenu: Lazy<ListHabitsSelectionMenu>
 ) : BaseRootView(context), ModelObservable.Listener {
 
     val listView = HabitCardListView(context, preferences, listAdapter)
@@ -90,14 +93,13 @@ class ListHabitsRootView @Inject constructor(
         updateEmptyView()
     }
 
-    fun setController(controller: ListHabitsController,
-                      menu: ListHabitsSelectionMenu) {
+    private fun setupControllers() {
 
         val listController = HabitCardListController(listAdapter)
-        listController.setHabitListener(controller)
-        listController.setSelectionListener(menu)
+        listController.setHabitListener(controller.get())
+        listController.setSelectionListener(selectionMenu.get())
         listView.controller = listController
-        menu.listController = listController
+        selectionMenu.get().listController = listController
         header.setScrollController(object : ScrollableChart.ScrollController {
             override fun onDataOffsetChanged(newDataOffset: Int) {
                 listView.dataOffset = newDataOffset
@@ -107,6 +109,7 @@ class ListHabitsRootView @Inject constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        setupControllers()
         listAdapter.observable.addListener(this)
     }
 

@@ -37,13 +37,9 @@ import static org.mockito.Mockito.*;
 public class BaseAndroidUnitTest
 {
     protected HabitList habitList;
-
     protected HabitFixtures fixtures;
-
     protected MemoryModelFactory modelFactory;
-
     protected SingleThreadTaskRunner taskRunner;
-
     protected CommandRunner commandRunner;
 
     @Before

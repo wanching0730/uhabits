@@ -28,36 +28,24 @@ import org.isoron.uhabits.core.utils.*
 
 class ListHabitsActivity : HabitsActivity() {
 
+    var pureBlack: Boolean = false
     lateinit var adapter: HabitCardListAdapter
     lateinit var rootView: ListHabitsRootView
     lateinit var screen: ListHabitsScreen
     lateinit var prefs: Preferences
     lateinit var midnightTimer: MidnightTimer
-    var pureBlack: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         prefs = appComponent.preferences
-        midnightTimer = appComponent.midnightTimer
         pureBlack = prefs.isPureBlackEnabled
-
-        val component = activityComponent
-        val menu = component.listHabitsMenu
-        val selectionMenu = component.listHabitsSelectionMenu
-        val controller = component.listHabitsController
-
-        adapter = component.habitCardListAdapter
+        midnightTimer = appComponent.midnightTimer
         rootView = component.listHabitsRootView
         screen = component.listHabitsScreen
-
-        screen.setMenu(menu)
-        screen.setController(controller)
-        screen.setSelectionMenu(selectionMenu)
-        rootView.setController(controller, selectionMenu)
+        adapter = component.habitCardListAdapter
 
         setScreen(screen)
-        controller.onStartup()
+        component.listHabitsBehavior.onStartup()
     }
 
     override fun onPause() {

@@ -23,51 +23,19 @@ import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.tasks.*
-import java.io.*
 import javax.inject.*
 
 @ActivityScope
 class ListHabitsController @Inject constructor(
         private val behavior: ListHabitsBehavior,
-        private val adapter: HabitCardListAdapter,
-        private val screen: ListHabitsScreen,
-        private val taskRunner: TaskRunner,
-        private val importTaskFactory: ImportDataTaskFactory,
-        private val exportDBFactory: ExportDBTaskFactory
+        private val screen: ListHabitsScreen
 ) : HabitCardListController.HabitListener {
-
-    fun onExportDB() {
-        taskRunner.execute(exportDBFactory.create { filename ->
-            if (filename != null) screen.showSendFileScreen(filename)
-            else screen.showMessage(R.string.could_not_export)
-        })
-    }
-
-    fun onImportData(file: File, onFinished: () -> Unit) {
-        taskRunner.execute(importTaskFactory.create(file) { result ->
-            if (result == ImportDataTask.SUCCESS) {
-                adapter.refresh()
-                screen.showMessage(R.string.habits_imported)
-            } else if (result == ImportDataTask.NOT_RECOGNIZED) {
-                screen.showMessage(R.string.file_not_recognized)
-            } else {
-                screen.showMessage(R.string.could_not_import)
-            }
-            onFinished()
-        })
-    }
 
     override fun onHabitReorder(from: Habit, to: Habit) {
         behavior.onReorderHabit(from, to)
     }
 
-    fun onStartup() = behavior.onStartup()
-    fun onRepairDB() = behavior.onRepairDB()
-    fun onExportCSV() = behavior.onExportCSV()
-    fun onSendBugReport() = behavior.onSendBugReport()
     override fun onEdit(h: Habit, t: Long) = behavior.onEdit(h, t)
     override fun onToggle(h: Habit, t: Long) = behavior.onToggle(h, t)
     override fun onInvalidEdit() = screen.showMessage(R.string.long_press_to_edit)
