@@ -24,10 +24,13 @@ import android.graphics.*
 import android.text.*
 import android.view.*
 import android.view.View.*
+import com.google.auto.factory.*
+import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
 import org.isoron.androidbase.utils.InterfaceUtils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.utils.*
 import java.text.*
 
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
@@ -46,9 +49,10 @@ fun Double.toShortString(): String = when {
     else -> DecimalFormat("#.##").format(this)
 }
 
+@AutoFactory
 class NumberButtonView(
-        context: Context,
-        val preferences: Preferences
+        @Provided @ActivityContext context: Context,
+        @Provided val preferences: Preferences
 ) : View(context),
     OnClickListener,
     OnLongClickListener {
@@ -78,7 +82,6 @@ class NumberButtonView(
         }
 
     var onEdit: () -> Unit = {}
-    var onInvalidEdit: () -> Unit = {}
     private var drawer: Drawer = Drawer(context)
 
     init {
@@ -88,7 +91,7 @@ class NumberButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) onEdit()
-        else onInvalidEdit()
+        else showMessage(R.string.long_press_to_edit)
     }
 
     override fun onLongClick(v: View): Boolean {

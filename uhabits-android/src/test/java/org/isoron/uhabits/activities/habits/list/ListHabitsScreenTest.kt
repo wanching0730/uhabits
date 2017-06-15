@@ -63,6 +63,7 @@ class ListHabitsScreenTest : BaseAndroidUnitTest() {
     @Mock lateinit var behavior: ListHabitsBehavior
     @Mock lateinit var exportDBFactory: ExportDBTaskFactory
     @Mock lateinit var importTaskFactory: ImportDataTaskFactory
+    @Mock lateinit var numberPickerFactory: NumberPickerFactory
 
     lateinit var screen: ListHabitsScreen
 
@@ -85,7 +86,8 @@ class ListHabitsScreenTest : BaseAndroidUnitTest() {
                 behavior = Lazy { behavior },
                 taskRunner = taskRunner,
                 exportDBFactory = exportDBFactory,
-                importTaskFactory = importTaskFactory))
+                importTaskFactory = importTaskFactory,
+                numberPickerFactory = numberPickerFactory))
 
         doNothing().`when`(screen).showMessage(anyInt())
     }

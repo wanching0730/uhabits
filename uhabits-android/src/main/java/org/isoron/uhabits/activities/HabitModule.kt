@@ -16,32 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.activities;
 
-import android.support.annotation.*;
+package org.isoron.uhabits.activities
 
-import org.isoron.androidbase.*;
-import org.isoron.uhabits.core.ui.screens.habits.list.*;
-import org.isoron.uhabits.core.ui.screens.habits.show.*;
+import dagger.*
+import org.isoron.uhabits.core.models.*
 
-import java.io.*;
-
-import javax.inject.*;
-
-public class HabitsDirFinder
-    implements ShowHabitMenuBehavior.System, ListHabitsBehavior.DirFinder
-{
-    private AndroidDirFinder androidDirFinder;
-
-    @Inject
-    public HabitsDirFinder(@NonNull AndroidDirFinder androidDirFinder)
-    {
-        this.androidDirFinder = androidDirFinder;
-    }
-
-    @Override
-    public File getCSVOutputDir()
-    {
-        return androidDirFinder.getFilesDir("CSV");
-    }
+@Module
+class HabitModule(private val habit: Habit) {
+    @Provides fun getHabit() = habit
 }

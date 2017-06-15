@@ -35,7 +35,6 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     lateinit var view: CheckmarkButtonView
 
     var toggled = false
-    var invalidToggled = false
 
     @Before
     override fun setUp() {
@@ -44,7 +43,6 @@ class CheckmarkButtonViewTest : BaseViewTest() {
             value = Checkmark.UNCHECKED
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { toggled = true }
-            onInvalidToggle = { invalidToggled = true }
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }
@@ -72,7 +70,6 @@ class CheckmarkButtonViewTest : BaseViewTest() {
         prefs.isShortToggleEnabled = false
         view.performClick()
         assertFalse(toggled)
-        assertTrue(invalidToggled)
     }
 
     @Test
@@ -80,7 +77,6 @@ class CheckmarkButtonViewTest : BaseViewTest() {
         prefs.isShortToggleEnabled = true
         view.performClick()
         assertTrue(toggled)
-        assertFalse(invalidToggled)
     }
 
     @Test

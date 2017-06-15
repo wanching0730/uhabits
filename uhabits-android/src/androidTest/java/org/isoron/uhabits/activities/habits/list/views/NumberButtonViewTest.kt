@@ -34,19 +34,16 @@ class NumberButtonViewTest : BaseViewTest() {
 
     private val PATH = "habits/list/NumberButtonView"
     private lateinit var view: NumberButtonView
-
     var edited = false
-    var invalidEdited = false
 
     @Before
     override fun setUp() {
         super.setUp()
-        view = NumberButtonView(targetContext, prefs).apply {
+        view = component.getNumberButtonViewFactory().create().apply {
             units = "steps"
             threshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
-            onInvalidEdit = { invalidEdited = true }
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }
@@ -92,7 +89,6 @@ class NumberButtonViewTest : BaseViewTest() {
         prefs.isShortToggleEnabled = false
         view.performClick()
         assertFalse(edited)
-        assertTrue(invalidEdited)
     }
 
     @Test
@@ -100,7 +96,6 @@ class NumberButtonViewTest : BaseViewTest() {
         prefs.isShortToggleEnabled = true
         view.performClick()
         assertTrue(edited)
-        assertFalse(invalidEdited)
     }
 
     @Test

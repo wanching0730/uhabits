@@ -52,8 +52,6 @@ class CheckmarkButtonView(
         }
 
     var onToggle: () -> Unit = {}
-    var onInvalidToggle: () -> Unit = {}
-
     private var drawer = Drawer()
 
     init {
@@ -74,7 +72,7 @@ class CheckmarkButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
-        else onInvalidToggle()
+        else showMessage(R.string.long_press_to_toggle)
     }
 
     override fun onLongClick(v: View): Boolean {

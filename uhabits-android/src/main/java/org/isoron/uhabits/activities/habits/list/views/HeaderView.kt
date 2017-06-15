@@ -95,7 +95,6 @@ class HeaderView(
     }
 
     private inner class Drawer {
-
         private val rect = RectF()
         private val paint = TextPaint().apply {
             color = Color.BLACK

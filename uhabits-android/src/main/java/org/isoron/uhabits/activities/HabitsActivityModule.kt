@@ -17,17 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
+package org.isoron.uhabits.activities
 
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.core.ui.*;
-
-import dagger.*;
+import dagger.*
+import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.core.ui.*
 
 @Module
-public abstract class HabitsActivityModule
-{
-    @Binds
-    @ActivityScope
-    abstract ThemeSwitcher getThemeSwitcher(AndroidThemeSwitcher t);
+abstract class HabitsActivityModule {
+    @Binds @ActivityScope
+    internal abstract fun getThemeSwitcher(t: AndroidThemeSwitcher): ThemeSwitcher
 }

@@ -21,11 +21,7 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.app.*
 import android.content.*
-import android.content.DialogInterface.*
 import android.support.annotation.*
-import android.text.*
-import android.view.inputmethod.EditorInfo.*
-import android.widget.*
 import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
@@ -70,6 +66,7 @@ class ListHabitsScreen
         private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
         private val editHabitDialogFactory: EditHabitDialogFactory,
+        private val numberPickerFactory: NumberPickerFactory,
         private val behavior: Lazy<ListHabitsBehavior>,
         private val menu: Lazy<ListHabitsMenu>,
         private val selectionMenu: Lazy<ListHabitsSelectionMenu>
@@ -138,13 +135,6 @@ class ListHabitsScreen
     override fun showAboutScreen() {
         val intent = intentFactory.startAboutActivity(activity)
         activity.startActivity(intent)
-    }
-
-    override fun showColorPicker(defaultColor: Int,
-                                 callback: OnColorPickedCallback) {
-        val picker = colorPickerFactory.create(defaultColor)
-        picker.setListener(callback)
-        activity.showDialog(picker, "picker")
     }
 
     fun showCreateBooleanHabitScreen() {
@@ -220,52 +210,17 @@ class ListHabitsScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
+    override fun showColorPicker(defaultColor: Int,
+                                 callback: OnColorPickedCallback) {
+        val picker = colorPickerFactory.create(defaultColor)
+        picker.setListener(callback)
+        activity.showDialog(picker, "picker")
+    }
+
     override fun showNumberPicker(value: Double,
                                   unit: String,
                                   callback: ListHabitsBehavior.NumberPickerCallback) {
-        val inflater = activity.layoutInflater
-        val view = inflater.inflate(R.layout.number_picker_dialog, null)
-
-        val picker: NumberPicker
-        val picker2: NumberPicker
-        val tvUnit: TextView
-
-        picker = view.findViewById(R.id.picker) as NumberPicker
-        picker2 = view.findViewById(R.id.picker2) as NumberPicker
-        tvUnit = view.findViewById(R.id.tvUnit) as TextView
-
-        val intValue = Math.round(value * 100).toInt()
-
-        picker.minValue = 0
-        picker.maxValue = Integer.MAX_VALUE / 100
-        picker.value = intValue / 100
-        picker.wrapSelectorWheel = false
-
-        picker2.minValue = 0
-        picker2.maxValue = 19
-        picker2.setFormatter { v -> String.format("%02d", 5 * v) }
-        picker2.value = intValue % 100 / 5
-        refreshInitialValue(picker2)
-
-        tvUnit.text = unit
-
-        val dialog = AlertDialog.Builder(activity)
-                .setView(view)
-                .setTitle(R.string.change_value)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    picker.clearFocus()
-                    val v = picker.value + 0.05 * picker2.value
-                    callback.onNumberPicked(v)
-                }
-                .create()
-
-        InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE)
-                dialog.getButton(BUTTON_POSITIVE).performClick()
-            false
-        }
-
-        dialog.show()
+        numberPickerFactory.create(value, unit, callback).show()
     }
 
     @StringRes
@@ -279,15 +234,6 @@ class ListHabitsScreen
             is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
             else -> return null
         }
-    }
-
-    private fun refreshInitialValue(picker2: NumberPicker) {
-        // Workaround for a bug on Android:
-        // https://code.google.com/p/android/issues/detail?id=35482
-        val f = NumberPicker::class.java.getDeclaredField("mInputText")
-        f.isAccessible = true
-        val inputText = f.get(picker2) as EditText
-        inputText.filters = arrayOfNulls<InputFilter>(0)
     }
 
     private fun showCreateNumericalHabitScreen() {

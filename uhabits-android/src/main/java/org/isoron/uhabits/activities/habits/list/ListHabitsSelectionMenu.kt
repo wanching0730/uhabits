@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.view.*
+import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.habits.list.views.*
@@ -32,13 +33,12 @@ class ListHabitsSelectionMenu @Inject constructor(
         private val screen: ListHabitsScreen,
         private val listAdapter: HabitCardListAdapter,
         var commandRunner: CommandRunner,
-        private val behavior: ListHabitsSelectionMenuBehavior
-) : BaseSelectionMenu(), HabitCardListController.SelectionListener {
-
-    var listController: HabitCardListController? = null
+        private val behavior: ListHabitsSelectionMenuBehavior,
+        private val listController: Lazy<HabitCardListController>
+) : BaseSelectionMenu() {
 
     override fun onFinish() {
-        listController?.onSelectionFinished()
+        listController.get().onSelectionFinished()
         super.onFinish()
     }
 
@@ -88,8 +88,8 @@ class ListHabitsSelectionMenu @Inject constructor(
         return true
     }
 
-    override fun onSelectionStart() = screen.startSelection()
-    override fun onSelectionChange() = invalidate()
-    override fun onSelectionFinish() = finish()
+    fun onSelectionStart() = screen.startSelection()
+    fun onSelectionChange() = invalidate()
+    fun onSelectionFinish() = finish()
     override fun getResourceId() = R.menu.list_habits_selection
 }

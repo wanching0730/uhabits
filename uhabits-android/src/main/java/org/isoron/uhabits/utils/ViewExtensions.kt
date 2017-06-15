@@ -19,6 +19,9 @@
 
 package org.isoron.uhabits.utils
 
+import android.graphics.*
+import android.support.annotation.*
+import android.support.design.widget.*
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
@@ -66,6 +69,14 @@ fun RelativeLayout.addAtTop(view: View,
 fun ViewGroup.buildToolbar(): Toolbar {
     val inflater = LayoutInflater.from(context)
     return inflater.inflate(R.layout.toolbar, null) as Toolbar
+}
+
+fun View.showMessage(@StringRes stringId: Int) {
+    val snackbar = Snackbar.make(this, stringId, Snackbar.LENGTH_SHORT)
+    val tvId = android.support.design.R.id.snackbar_text
+    val tv = snackbar.view.findViewById(tvId)
+    if(tv is TextView) tv.setTextColor(Color.WHITE)
+    snackbar.show()
 }
 
 fun Int.toMeasureSpec(mode: Int) =

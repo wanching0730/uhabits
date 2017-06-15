@@ -20,12 +20,16 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
+import com.google.auto.factory.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 
+@AutoFactory
 class NumberPanelView(
-        context: Context,
-        preferences: Preferences
+        @Provided @ActivityContext context: Context,
+        @Provided preferences: Preferences,
+        @Provided private val buttonFactory: NumberButtonViewFactory
 ) : ButtonPanelView<NumberButtonView>(context, preferences) {
 
     var values = DoubleArray(0)
@@ -52,19 +56,13 @@ class NumberPanelView(
             setupButtons()
         }
 
-    var onInvalidEdit: () -> Unit = {}
-        set(value) {
-            field = value
-            setupButtons()
-        }
-
     var onEdit: (Long) -> Unit = {}
         set(value) {
             field = value
             setupButtons()
         }
 
-    override fun createButton() = NumberButtonView(context, preferences)
+    override fun createButton() = buttonFactory.create()!!
 
     @Synchronized
     override fun setupButtons() {
@@ -81,7 +79,6 @@ class NumberPanelView(
             button.threshold = threshold
             button.units = units
             button.onEdit = { onEdit(timestamp) }
-            button.onInvalidEdit = { onInvalidEdit() }
         }
     }
 }

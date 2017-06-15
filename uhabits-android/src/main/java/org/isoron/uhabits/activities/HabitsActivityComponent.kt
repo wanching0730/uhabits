@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,15 +17,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits
+package org.isoron.uhabits.activities
 
 import dagger.*
 import org.isoron.androidbase.activities.*
-import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.about.*
+import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.activities.habits.show.*
+import org.isoron.uhabits.core.ui.*
+import org.isoron.uhabits.core.ui.screens.habits.list.*
 
 @ActivityScope
 @Component(modules = arrayOf(
@@ -36,10 +39,16 @@ import org.isoron.uhabits.activities.habits.show.*
         ShowHabitModule::class,
         HabitModule::class
 ), dependencies = arrayOf(HabitsApplicationComponent::class))
-interface HabitsActivityTestComponent : HabitsActivityComponent {
-    fun getCheckmarkPanelViewFactory(): CheckmarkPanelViewFactory
-    fun getHabitCardViewFactory(): HabitCardViewFactory
-    fun getCheckmarkButtonViewFactory(): CheckmarkButtonViewFactory
-    fun getNumberButtonViewFactory(): NumberButtonViewFactory
-    fun getNumberPanelViewFactory(): NumberPanelViewFactory
+interface HabitsActivityComponent {
+    val aboutRootView: AboutRootView
+    val aboutScreen: AboutScreen
+    val colorPickerDialogFactory: ColorPickerDialogFactory
+    val habitCardListAdapter: HabitCardListAdapter
+    val listHabitsBehavior: ListHabitsBehavior
+    val listHabitsMenu: ListHabitsMenu
+    val listHabitsRootView: ListHabitsRootView
+    val listHabitsScreen: ListHabitsScreen
+    val listHabitsSelectionMenu: ListHabitsSelectionMenu
+    val showHabitScreen: ShowHabitScreen
+    val themeSwitcher: ThemeSwitcher
 }

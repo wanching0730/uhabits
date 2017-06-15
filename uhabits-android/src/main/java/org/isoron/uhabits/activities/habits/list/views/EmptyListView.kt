@@ -29,7 +29,6 @@ import org.isoron.uhabits.*
 import org.isoron.uhabits.utils.*
 
 class EmptyListView(context: Context) : LinearLayout(context) {
-
     init {
         orientation = VERTICAL
         gravity = Gravity.CENTER

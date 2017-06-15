@@ -32,15 +32,16 @@ import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 
 @AutoFactory
 class HabitCardView(
         @Provided @ActivityContext context: Context,
-        @Provided preferences: Preferences,
-        @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory
+        @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
+        @Provided private val numberPanelFactory: NumberPanelViewFactory,
+        @Provided private val behavior: ListHabitsBehavior
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
@@ -94,11 +95,6 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
-    var onToggle: (Habit, Long) -> Unit = { _, _ -> }
-    var onEdit: (Habit, Long) -> Unit = { _, _ -> }
-    var onInvalidToggle: () -> Unit = {}
-    var onInvalidEdit: () -> Unit = {}
-
     private var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
@@ -125,20 +121,18 @@ class HabitCardView(
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
-            onToggle = { t ->
-                triggerRipple(t)
-                habit?.let { onToggle(it, t) }
+            onToggle = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onToggle(it, timestamp) }
             }
-            onInvalidToggle = { this@HabitCardView.onInvalidToggle() }
         }
 
-        numberPanel = NumberPanelView(context, preferences).apply {
+        numberPanel = numberPanelFactory.create().apply {
             visibility = GONE
-            onEdit = { t ->
-                triggerRipple(t)
-                habit?.let { onEdit(it, t) }
+            onEdit = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp) }
             }
-            onInvalidEdit = { this@HabitCardView.onInvalidEdit() }
         }
 
         innerFrame = LinearLayout(context).apply {

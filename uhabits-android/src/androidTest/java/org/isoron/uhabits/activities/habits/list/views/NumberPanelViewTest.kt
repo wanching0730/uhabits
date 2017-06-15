@@ -40,14 +40,10 @@ class NumberPanelViewTest : BaseViewTest() {
         super.setUp()
         prefs.isCheckmarkSequenceReversed = false
 
-        val checkmarks = doubleArrayOf(1400.0,
-                                       5300.0,
-                                       0.0,
-                                       14600.0,
-                                       2500.0,
-                                       45000.0)
+        val checkmarks = doubleArrayOf(1400.0, 5300.0, 0.0,
+                                       14600.0, 2500.0, 45000.0)
 
-        view = NumberPanelView(targetContext, prefs).apply {
+        view = component.getNumberPanelViewFactory().create().apply {
             values = checkmarks
             buttonCount = 4
             color = PaletteUtils.getAndroidTestColor(7)

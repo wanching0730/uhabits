@@ -17,28 +17,30 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.list
+package org.isoron.uhabits.activities
 
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.ui.*
 import javax.inject.*
 
 @ActivityScope
-class ListHabitsController @Inject constructor(
-        private val behavior: ListHabitsBehavior,
-        private val screen: ListHabitsScreen
-) : HabitCardListController.HabitListener {
+class AndroidThemeSwitcher
+@Inject constructor(
+        private val activity: BaseActivity,
+        preferences: Preferences
+) : ThemeSwitcher(preferences) {
 
-    override fun onHabitReorder(from: Habit, to: Habit) {
-        behavior.onReorderHabit(from, to)
+    override fun applyDarkTheme() {
+        activity.setTheme(R.style.AppBaseThemeDark)
     }
 
-    override fun onEdit(h: Habit, t: Long) = behavior.onEdit(h, t)
-    override fun onToggle(h: Habit, t: Long) = behavior.onToggle(h, t)
-    override fun onInvalidEdit() = screen.showMessage(R.string.long_press_to_edit)
-    override fun onInvalidToggle() = screen.showMessage(R.string.long_press_to_toggle)
-    override fun onHabitClick(h: Habit) = behavior.onClickHabit(h)
+    override fun applyLightTheme() {
+        activity.setTheme(R.style.AppBaseTheme)
+    }
+
+    override fun applyPureBlackTheme() {
+        activity.setTheme(R.style.AppBaseThemeDark_PureBlack)
+    }
 }

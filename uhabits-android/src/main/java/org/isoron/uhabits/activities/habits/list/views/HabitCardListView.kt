@@ -26,26 +26,20 @@ import android.support.v7.widget.helper.*
 import android.support.v7.widget.helper.ItemTouchHelper.*
 import android.view.*
 import com.google.auto.factory.*
+import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
 
 @AutoFactory
 class HabitCardListView(
         @Provided @ActivityContext context: Context,
-        @Provided private var preferences: Preferences,
-        @Provided private var adapter: HabitCardListAdapter,
-        @Provided private var cardViewFactory: HabitCardViewFactory
+        @Provided private val adapter: HabitCardListAdapter,
+        @Provided private val cardViewFactory: HabitCardViewFactory,
+        @Provided private val controller: Lazy<HabitCardListController>
 ) : RecyclerView(context) {
 
     var checkmarkCount: Int = 0
-    var controller: Controller = object : Controller {}
-    private val attachedHolders = mutableListOf<HabitCardViewHolder>()
-
-    private val touchHelper = ItemTouchHelper(TouchHelperCallback()).apply {
-        attachToRecyclerView(this@HabitCardListView)
-    }
 
     var dataOffset: Int = 0
         set(value) {
@@ -54,6 +48,11 @@ class HabitCardListView(
                     .map { it.itemView as HabitCardView }
                     .forEach { it.dataOffset = value }
         }
+
+    private val attachedHolders = mutableListOf<HabitCardViewHolder>()
+    private val touchHelper = ItemTouchHelper(TouchHelperCallback()).apply {
+        attachToRecyclerView(this@HabitCardListView)
+    }
 
     init {
         setHasFixedSize(true)
@@ -80,10 +79,6 @@ class HabitCardListView(
         cardView.score = score
         cardView.unit = habit.unit
         cardView.threshold = habit.targetValue
-        cardView.onInvalidEdit = { controller.onInvalidEdit() }
-        cardView.onInvalidToggle = { controller.onInvalidToggle() }
-        cardView.onToggle = { h, t -> controller.onToggle(h, t) }
-        cardView.onEdit = { h, t -> controller.onEdit(h, t) }
 
         val detector = GestureDetector(context, CardViewGestureDetector(holder))
         cardView.setOnTouchListener { _, ev ->
@@ -134,10 +129,6 @@ class HabitCardListView(
         fun onItemClick(pos: Int) {}
         fun onItemLongClick(pos: Int) {}
         fun startDrag(position: Int) {}
-        fun onInvalidToggle() {}
-        fun onInvalidEdit() {}
-        fun onToggle(habit: Habit, timestamp: Long) {}
-        fun onEdit(habit: Habit, timestamp: Long) {}
     }
 
     private inner class CardViewGestureDetector(
@@ -146,13 +137,13 @@ class HabitCardListView(
 
         override fun onLongPress(e: MotionEvent) {
             val position = holder.adapterPosition
-            controller.onItemLongClick(position)
+            controller.get().onItemLongClick(position)
             if (adapter.isSortable) touchHelper.startDrag(holder)
         }
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             val position = holder.adapterPosition
-            controller.onItemClick(position)
+            controller.get().onItemClick(position)
             return true
         }
     }
@@ -166,7 +157,7 @@ class HabitCardListView(
         override fun onMove(recyclerView: RecyclerView,
                             from: RecyclerView.ViewHolder,
                             to: RecyclerView.ViewHolder): Boolean {
-            controller.drop(from.adapterPosition, to.adapterPosition)
+            controller.get().drop(from.adapterPosition, to.adapterPosition)
             return true
         }
 
