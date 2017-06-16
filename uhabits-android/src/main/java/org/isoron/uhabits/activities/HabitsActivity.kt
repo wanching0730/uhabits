@@ -39,7 +39,8 @@ abstract class HabitsActivity : BaseActivity() {
 
         component = DaggerHabitsActivityComponent
                 .builder()
-                .activityModule(ActivityModule(this))
+                .activityContextModule(ActivityContextModule(this))
+                .baseActivityModule(BaseActivityModule(this))
                 .habitModule(HabitModule(habit))
                 .habitsApplicationComponent(appComponent)
                 .build()

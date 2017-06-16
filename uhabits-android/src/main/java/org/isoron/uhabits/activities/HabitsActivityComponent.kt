@@ -32,7 +32,8 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*
 
 @ActivityScope
 @Component(modules = arrayOf(
-        ActivityModule::class,
+        ActivityContextModule::class,
+        BaseActivityModule::class,
         AboutModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,

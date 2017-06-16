@@ -51,6 +51,7 @@ abstract class ButtonPanelView<T : View>(
         inflateButtons()
     }
 
+    @Synchronized
     protected fun inflateButtons() {
         val reverse = preferences.isCheckmarkSequenceReversed
 

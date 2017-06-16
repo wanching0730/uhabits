@@ -30,7 +30,7 @@ import org.mockito.*
 import org.mockito.Mockito.*
 import java.util.*
 
-class HabitCardListControllerTest : BaseAndroidUnitTest() {
+class HabitCardListControllerTest : BaseAndroidJVMTest() {
     private val habits = LinkedList<Habit>()
     private lateinit var controller: HabitCardListController
 

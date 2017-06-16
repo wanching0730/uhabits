@@ -72,11 +72,15 @@ fun ViewGroup.buildToolbar(): Toolbar {
 }
 
 fun View.showMessage(@StringRes stringId: Int) {
-    val snackbar = Snackbar.make(this, stringId, Snackbar.LENGTH_SHORT)
-    val tvId = android.support.design.R.id.snackbar_text
-    val tv = snackbar.view.findViewById(tvId)
-    if(tv is TextView) tv.setTextColor(Color.WHITE)
-    snackbar.show()
+    try {
+        val snackbar = Snackbar.make(this, stringId, Snackbar.LENGTH_SHORT)
+        val tvId = android.support.design.R.id.snackbar_text
+        val tv = snackbar.view.findViewById(tvId)
+        if(tv is TextView) tv.setTextColor(Color.WHITE)
+        snackbar.show()
+    } catch (e: IllegalArgumentException) {
+        return
+    }
 }
 
 fun Int.toMeasureSpec(mode: Int) =

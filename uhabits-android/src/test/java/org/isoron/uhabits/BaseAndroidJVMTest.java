@@ -34,7 +34,7 @@ import java.util.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BaseAndroidUnitTest
+public class BaseAndroidJVMTest
 {
     protected HabitList habitList;
     protected HabitFixtures fixtures;

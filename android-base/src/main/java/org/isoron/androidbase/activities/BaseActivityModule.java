@@ -19,29 +19,20 @@
 
 package org.isoron.androidbase.activities;
 
-import android.content.*;
-
 import dagger.*;
 
 @Module
-public class ActivityModule
+public class BaseActivityModule
 {
     private BaseActivity activity;
 
-    public ActivityModule(BaseActivity activity)
+    public BaseActivityModule(BaseActivity activity)
     {
         this.activity = activity;
     }
 
     @Provides
-    public BaseActivity getActivity()
-    {
-        return activity;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
+    public BaseActivity getBaseActivity()
     {
         return activity;
     }

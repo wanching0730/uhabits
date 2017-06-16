@@ -46,7 +46,7 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.*
 
 @RunWith(MockitoJUnitRunner::class)
-class ListHabitsScreenTest : BaseAndroidUnitTest() {
+class ListHabitsScreenTest : BaseAndroidJVMTest() {
     @Mock lateinit var activity: BaseActivity
     @Mock lateinit var habit: Habit
     @Mock lateinit var intent: Intent
@@ -69,6 +69,7 @@ class ListHabitsScreenTest : BaseAndroidUnitTest() {
 
     @Before
     override fun setUp() {
+        super.setUp()
         commandRunner = mock(CommandRunner::class.java)
         screen = spy(ListHabitsScreen(
                 activity = activity,

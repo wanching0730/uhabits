@@ -26,17 +26,25 @@ import org.isoron.uhabits.activities.about.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.activities.habits.show.*
+import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.mockito.Mockito.*
+
+@Module
+class TestModule {
+    @Provides fun ListHabitsBehavior() = mock(ListHabitsBehavior::class.java)
+}
 
 @ActivityScope
 @Component(modules = arrayOf(
-        ActivityModule::class,
+        ActivityContextModule::class,
         AboutModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
         ShowHabitModule::class,
-        HabitModule::class
+        HabitModule::class,
+        TestModule::class
 ), dependencies = arrayOf(HabitsApplicationComponent::class))
-interface HabitsActivityTestComponent : HabitsActivityComponent {
+interface HabitsActivityTestComponent {
     fun getCheckmarkPanelViewFactory(): CheckmarkPanelViewFactory
     fun getHabitCardViewFactory(): HabitCardViewFactory
     fun getCheckmarkButtonViewFactory(): CheckmarkButtonViewFactory

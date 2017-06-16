@@ -60,7 +60,8 @@ class CheckmarkPanelViewTest : BaseViewTest() {
 
     @After
     public override fun tearDown() {
-        view.onDetachedFromWindow()
+//        view.onDetachedFromWindow()
+        super.tearDown()
     }
 
     @Test
@@ -88,13 +89,12 @@ class CheckmarkPanelViewTest : BaseViewTest() {
 
     @Test
     fun testToggle() {
-        var timestamps = LongArray(0)
-        view.onToggle = { timestamps += it }
-        view.buttons[0].performClick()
-        view.buttons[2].performClick()
-        view.buttons[3].performClick()
-        Thread.sleep(500)
-        assertThat(timestamps, equalTo(longArrayOf(day(0), day(2), day(3))))
+        var timestamps = mutableListOf<Long>()
+        view.onToggle = { timestamps.add(it) }
+        view.buttons[0].performLongClick()
+        view.buttons[2].performLongClick()
+        view.buttons[3].performLongClick()
+        assertThat(timestamps, equalTo(listOf(day(0), day(2), day(3))))
     }
 
     @Test
@@ -102,10 +102,9 @@ class CheckmarkPanelViewTest : BaseViewTest() {
         var timestamps = LongArray(0)
         view.dataOffset = 3
         view.onToggle = { timestamps += it }
-        view.buttons[0].performClick()
-        view.buttons[2].performClick()
-        view.buttons[3].performClick()
-        Thread.sleep(500)
+        view.buttons[0].performLongClick()
+        view.buttons[2].performLongClick()
+        view.buttons[3].performLongClick()
         assertThat(timestamps, equalTo(longArrayOf(day(3), day(5), day(6))))
     }
 }

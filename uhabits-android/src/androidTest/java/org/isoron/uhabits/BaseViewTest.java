@@ -200,6 +200,7 @@ public class BaseViewTest extends BaseAndroidTest
 
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
+        view.invalidate();
         view.draw(canvas);
         return bitmap;
     }

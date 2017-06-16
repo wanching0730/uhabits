@@ -33,7 +33,6 @@ import junit.framework.*;
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
@@ -103,14 +102,16 @@ public class BaseAndroidTest extends TestCase
         logger = appComponent.getHabitsLogger();
         modelFactory = appComponent.getModelFactory();
 
-        Habit habit = fixtures.createEmptyHabit();
+        prefs.reset();
+
         fixtures = new HabitFixtures(modelFactory, habitList);
+        fixtures.purgeHabits(appComponent.getHabitList());
+        Habit habit = fixtures.createEmptyHabit();
 
         component = DaggerHabitsActivityTestComponent
             .builder()
-            .activityModule(new ActivityModule((BaseActivity) targetContext))
+            .activityContextModule(new ActivityContextModule(targetContext))
             .habitsApplicationComponent(appComponent)
-            .habitModule(new HabitModule(habit))
             .build();
     }
 
@@ -129,7 +130,7 @@ public class BaseAndroidTest extends TestCase
 
     protected void awaitLatch() throws InterruptedException
     {
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertTrue(latch.await(1, TimeUnit.SECONDS));
     }
 
     protected void setLocale(@NonNull String language, @NonNull String country)

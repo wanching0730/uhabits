@@ -48,7 +48,9 @@ class HabitCardViewTest : BaseViewTest() {
             isSelected = false
             buttonCount = 5
         }
+        latch.countDown()
 
+        latch.await()
         measureView(view, dpToPixels(400), dpToPixels(50))
     }
 

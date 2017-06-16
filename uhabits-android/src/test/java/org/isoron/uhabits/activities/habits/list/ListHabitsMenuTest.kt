@@ -29,7 +29,7 @@ import org.junit.*
 import org.mockito.*
 import org.mockito.Mockito.*
 
-class ListHabitsMenuTest : BaseAndroidUnitTest() {
+class ListHabitsMenuTest : BaseAndroidJVMTest() {
     @Mock lateinit var activity: BaseActivity
     @Mock lateinit var preferences: Preferences
     @Mock lateinit var themeSwitcher: ThemeSwitcher
@@ -38,6 +38,7 @@ class ListHabitsMenuTest : BaseAndroidUnitTest() {
 
     @Before
     override fun setUp() {
+        super.setUp()
         menu = ListHabitsMenu(activity, preferences,
                               themeSwitcher, behavior)
     }
