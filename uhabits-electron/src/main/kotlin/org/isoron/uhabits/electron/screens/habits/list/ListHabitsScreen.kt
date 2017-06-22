@@ -1,8 +1,7 @@
 package org.isoron.uhabits.electron.screens.habits.list
 
 import kotlinx.html.*
-import kotlinx.html.js.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.core.models.*
 import react.*
 import react.dom.*
 import kotlin.browser.*
@@ -12,49 +11,26 @@ fun launch() {
     ReactDOM.render(document.body) { ListHabitsScreen {} }
 }
 
-class ListHabitsScreen
-    : ReactDOMComponent<ListHabitsScreen.Props, ListHabitsScreen.State>(),
-      ListHabitsMenuBehavior.Screen {
+class State : RState
+class Props : RProps()
 
-    var behavior = ListHabitsMenuBehavior(this, MockAdapter(), Preferences(), ThemeSwitcher())
-
-    override fun applyTheme() {
-
-    }
-
-    override fun showAboutScreen() {
-        window.alert("Showing about screen")
-    }
-
-    override fun showCreateHabitScreen() {
-    }
-
-    override fun showFAQScreen() {
-        window.alert("Showing FAQ")
-    }
-
-    override fun showSettingsScreen() {
-    }
-
+class ListHabitsScreen : ReactDOMComponent<Props, State>() {
     companion object : ReactComponentSpec<ListHabitsScreen, Props, State>
 
     init {
         state = State()
+        val rep = Repetition(100, 200)
     }
 
     override fun ReactDOMBuilder.render() {
         div {
             button {
-                + "About"
-                onClickFunction = { behavior.onViewAbout() }
+                +"About"
             }
             button {
-                + "FAQ"
-                onClickFunction = { behavior.onViewFAQ() }
+                +"FAQ"
             }
+            +(Repetition(100, 200)).toString()
         }
     }
-
-    class State : RState
-    class Props : RProps()
 }

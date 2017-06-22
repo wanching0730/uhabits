@@ -1,6 +1,10 @@
+package org.isoron.uhabits.electron
+
 import io.atom.electron.*
 
 external val render_process: dynamic
+
+class Options(var width: Int, var height: Int)
 
 fun main(args : Array<String>) {
     if(jsTypeOf(render_process) != "undefined") return
@@ -15,5 +19,3 @@ fun main(args : Array<String>) {
         }
     }
 }
-
-

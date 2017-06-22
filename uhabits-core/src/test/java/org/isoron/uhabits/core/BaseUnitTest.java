@@ -147,7 +147,7 @@ public class BaseUnitTest
         if (file.exists() && file.canRead()) in = new FileInputStream(file);
         if (in != null) return in;
 
-        throw new IllegalStateException("asset not found: " + assetPath);
+        throw new RuntimeException("asset not found: " + assetPath);
     }
 
     protected Database openDatabaseResource(String path) throws IOException

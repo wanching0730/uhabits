@@ -1,1 +1,3 @@
 include ':uhabits-android', ':uhabits-core', ':android-base', ':android-pickers', ':uhabits-electron'
+include 'uhabits-core-kt'
+

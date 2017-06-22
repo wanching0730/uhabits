@@ -107,18 +107,18 @@ contribute, even if you are not a software developer.
 	You should have received a copy of the GNU General Public License along
 	with this program. If not, see <http://www.gnu.org/licenses/>.
 
-[screen1]: screenshots/original/uhabits1.png
-[screen2]: screenshots/original/uhabits2.png
-[screen3]: screenshots/original/uhabits3.png
-[screen4]: screenshots/original/uhabits4.png
-[screen5]: screenshots/original/uhabits5.png
-[screen6]: screenshots/original/uhabits6.png
-[screen1th]: screenshots/thumbs/uhabits1.png
-[screen2th]: screenshots/thumbs/uhabits2.png
-[screen3th]: screenshots/thumbs/uhabits3.png
-[screen4th]: screenshots/thumbs/uhabits4.png
-[screen5th]: screenshots/thumbs/uhabits5.png
-[screen6th]: screenshots/thumbs/uhabits6.png
+[screen1]: uhabits-android/screenshots/original/uhabits1.png
+[screen2]: uhabits-android/screenshots/original/uhabits2.png
+[screen3]: uhabits-android/screenshots/original/uhabits3.png
+[screen4]: uhabits-android/screenshots/original/uhabits4.png
+[screen5]: uhabits-android/screenshots/original/uhabits5.png
+[screen6]: uhabits-android/screenshots/original/uhabits6.png
+[screen1th]: uhabits-android/screenshots/thumbs/uhabits1.png
+[screen2th]: uhabits-android/screenshots/thumbs/uhabits2.png
+[screen3th]: uhabits-android/screenshots/thumbs/uhabits3.png
+[screen4th]: uhabits-android/screenshots/thumbs/uhabits4.png
+[screen5th]: uhabits-android/screenshots/thumbs/uhabits5.png
+[screen6th]: uhabits-android/screenshots/thumbs/uhabits6.png
 [poedit]: http://translate.loophabits.org
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases

@@ -1,10 +1,8 @@
 package io.atom.electron
 
-class Options(var width: Int, var height: Int)
-
 @JsModule("electron")
 external abstract class Electron {
-    open class BrowserWindow(args: Options)
+    open class BrowserWindow(args: dynamic)
     companion object {
         val app: dynamic
     }

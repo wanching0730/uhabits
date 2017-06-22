@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.1.2'
+    ext.kotlin_version = '1.1.2-5'
     repositories {
         mavenCentral()
     }
@@ -12,6 +12,7 @@ plugins {
 	id "com.moowork.node" version "1.2.0"
 }
 
+apply plugin: 'idea'
 apply plugin: 'kotlin2js'
 apply plugin: 'java'
 
@@ -28,13 +29,18 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-html-js:+"
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:0.6.3"
 }
 
 compileKotlin2Js {
     kotlinOptions.outputFile = "${projectDir}/build/app/index.js"
     kotlinOptions.moduleKind = 'commonjs'
     kotlinOptions.main = "call"
+    kotlinOptions.metaInfo = true
+}
+
+sourceSets {
+    main.kotlin.srcDirs += "../electron-base/src/main/kotlin"
 }
 
 build.doLast() {
