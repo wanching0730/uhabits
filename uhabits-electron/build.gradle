@@ -1,0 +1,67 @@
+buildscript {
+    ext.kotlin_version = '1.1.2'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+	id "com.moowork.node" version "1.2.0"
+}
+
+apply plugin: 'kotlin2js'
+apply plugin: 'java'
+
+group 'org.isoron.uhabits'
+version '1.8.0'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url "http://dl.bintray.com/kotlin/kotlin-eap-1.1"
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:+"
+}
+
+compileKotlin2Js {
+    kotlinOptions.outputFile = "${projectDir}/build/app/index.js"
+    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.main = "call"
+}
+
+build.doLast() {
+    configurations.compile.each { File file ->
+        copy {
+            includeEmptyDirs = false
+
+            from zipTree(file.absolutePath)
+            into "${projectDir}/build/app/node_modules"
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+            }
+        }
+    }
+
+	copy {
+		includeEmptyDirs = false
+		from new File("build/resources/main")
+		into "${projectDir}/build/app"
+	}
+}
+
+build.finalizedBy npm_install
+
+node {
+	nodeModulesDir = file("${projectDir}/build/app")
+}
+
+jar.enabled = false
