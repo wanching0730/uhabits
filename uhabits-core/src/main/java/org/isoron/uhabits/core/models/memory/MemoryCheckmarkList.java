@@ -26,6 +26,7 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 import static org.isoron.uhabits.core.utils.DateUtils.*;
 
 /**
@@ -68,7 +69,7 @@ public class MemoryCheckmarkList extends CheckmarkList
         for(long time = toTimestamp; time >= fromTimestamp; time -= millisecondsInOneDay)
         {
             if(time > newestTimestamp || time < oldestTimestamp)
-                filtered.add(new Checkmark(time, Checkmark.UNCHECKED));
+                filtered.add(new Checkmark(time, UNCHECKED));
             else
             {
                 int offset = (int) ((newestTimestamp - time) / millisecondsInOneDay);

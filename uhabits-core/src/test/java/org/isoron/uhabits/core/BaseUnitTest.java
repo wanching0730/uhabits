@@ -37,8 +37,6 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-import sun.reflect.generics.reflectiveObjects.*;
-
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -77,7 +75,7 @@ public class BaseUnitTest
         @Override
         public File getProductionDatabaseFile()
         {
-            throw new NotImplementedException();
+            throw new IllegalStateException();
         }
     };
 
@@ -141,11 +139,11 @@ public class BaseUnitTest
     {
         InputStream in = getClass().getResourceAsStream(assetPath);
         if (in != null) return in;
-
-        String basePath = "uhabits-core/src/test/resources/";
+        String basePath = "src/test/resources/";
         File file = new File(basePath + assetPath);
         if (file.exists() && file.canRead()) in = new FileInputStream(file);
         if (in != null) return in;
+
 
         throw new RuntimeException("asset not found: " + assetPath);
     }

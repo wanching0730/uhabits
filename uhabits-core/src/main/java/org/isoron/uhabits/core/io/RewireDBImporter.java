@@ -200,7 +200,7 @@ public class RewireDBImporter extends AbstractImporter
 
             int hour = rewireReminder / 60;
             int minute = rewireReminder % 60;
-            WeekdayList days = new WeekdayList(reminderDays);
+            WeekdayList days = WeekdayList.Companion.fromArray(reminderDays);
 
             Reminder reminder = new Reminder(hour, minute, days);
             habit.setReminder(reminder);

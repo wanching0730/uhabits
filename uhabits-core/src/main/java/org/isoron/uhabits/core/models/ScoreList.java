@@ -288,7 +288,7 @@ public abstract class ScoreList implements Iterable<Score>
             if(!habit.isNumerical() && value > 0)
                 value = 1;
 
-            previousValue = Score.compute(freq, previousValue, value);
+            previousValue = Score.Companion.compute(freq, previousValue, value);
             scores.add(new Score(from + day * i, previousValue));
         }
 

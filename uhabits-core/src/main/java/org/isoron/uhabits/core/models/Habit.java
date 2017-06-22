@@ -28,7 +28,7 @@ import java.util.*;
 import javax.annotation.concurrent.*;
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 /**
  * The thing that the user wants to track.

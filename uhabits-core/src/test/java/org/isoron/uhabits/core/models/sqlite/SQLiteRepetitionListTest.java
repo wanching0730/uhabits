@@ -31,11 +31,10 @@ import org.junit.*;
 
 import java.util.*;
 
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 public class SQLiteRepetitionListTest extends BaseUnitTest
 {

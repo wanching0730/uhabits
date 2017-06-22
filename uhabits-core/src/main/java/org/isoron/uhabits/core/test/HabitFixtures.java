@@ -42,7 +42,7 @@ public class HabitFixtures
         habit.setName("Meditate");
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(3);
-        habit.setFrequency(Frequency.DAILY);
+        habit.setFrequency(Frequency.Companion.getDAILY());
         saveIfSQLite(habit);
 
         return habit;

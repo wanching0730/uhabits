@@ -43,8 +43,9 @@ public class HabitRecordTest extends BaseUnitTest
         habit.setDescription("Did you greet the world today?");
         habit.setColor(1);
         habit.setArchived(true);
-        habit.setFrequency(Frequency.THREE_TIMES_PER_WEEK);
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habit.setFrequency(Frequency.Companion.getTHREE_TIMES_PER_WEEK());
+        habit.setReminder(new Reminder(8, 30,
+            WeekdayList.Companion.getEVERY_DAY()));
         habit.setId(1000L);
     }
 

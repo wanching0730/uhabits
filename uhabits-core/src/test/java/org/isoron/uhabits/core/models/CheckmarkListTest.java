@@ -28,9 +28,7 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_IMPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 public class CheckmarkListTest extends BaseUnitTest
 {
@@ -128,7 +126,7 @@ public class CheckmarkListTest extends BaseUnitTest
         expected.add(new CheckmarkList.Interval(day(8), day(8), day(2)));
 
         ArrayList<CheckmarkList.Interval> actual;
-        actual = CheckmarkList.buildIntervals(Frequency.WEEKLY, reps);
+        actual = CheckmarkList.buildIntervals(Frequency.Companion.getWEEKLY(), reps);
         assertThat(actual, equalTo(expected));
     }
 
@@ -147,7 +145,7 @@ public class CheckmarkListTest extends BaseUnitTest
         expected.add(new CheckmarkList.Interval(day(8), day(8), day(8)));
 
         ArrayList<CheckmarkList.Interval> actual;
-        actual = CheckmarkList.buildIntervals(Frequency.DAILY, reps);
+        actual = CheckmarkList.buildIntervals(Frequency.Companion.getDAILY(), reps);
         assertThat(actual, equalTo(expected));
     }
 
@@ -169,7 +167,7 @@ public class CheckmarkListTest extends BaseUnitTest
 
         ArrayList<CheckmarkList.Interval> actual;
         actual =
-            CheckmarkList.buildIntervals(Frequency.TWO_TIMES_PER_WEEK, reps);
+            CheckmarkList.buildIntervals(Frequency.Companion.getTWO_TIMES_PER_WEEK(), reps);
         assertThat(actual, equalTo(expected));
     }
 

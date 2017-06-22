@@ -25,9 +25,9 @@ import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
 import static junit.framework.Assert.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 public class CreateRepetitionCommandTest extends BaseUnitTest
 {

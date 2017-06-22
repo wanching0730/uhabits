@@ -128,7 +128,7 @@ public class TickmateDBImporter extends AbstractImporter
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
                 habit.setDescription(description);
-                habit.setFrequency(Frequency.DAILY);
+                habit.setFrequency(Frequency.Companion.getDAILY());
                 habits.add(habit);
 
                 createCheckmarks(db, habit, id);

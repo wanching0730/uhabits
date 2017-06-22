@@ -30,10 +30,8 @@ import java.util.*;
 
 import javax.annotation.concurrent.*;
 
-import static java.lang.Math.min;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_IMPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
+import static java.lang.Math.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 /**
  * The collection of {@link Checkmark}s belonging to a habit.

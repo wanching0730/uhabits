@@ -32,6 +32,8 @@ import java.util.*;
 
 import javax.inject.*;
 
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
+
 @AppScope
 public class NotificationTray
     implements CommandRunner.Listener, Preferences.Listener
@@ -83,7 +85,7 @@ public class NotificationTray
             taskRunner.execute(() ->
             {
                 if (habit.getCheckmarks().getTodayValue() !=
-                    Checkmark.UNCHECKED) cancel(habit);
+                    UNCHECKED) cancel(habit);
             });
         }
 
@@ -186,7 +188,7 @@ public class NotificationTray
         @Override
         public void onPostExecute()
         {
-            if (todayValue != Checkmark.UNCHECKED) return;
+            if (todayValue != UNCHECKED) return;
             if (!shouldShowReminderToday()) return;
             if (!habit.hasReminder()) return;
 

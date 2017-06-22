@@ -17,6 +17,12 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main.kotlin.srcDirs += "src/platform/kotlin"
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    testImplementation 'junit:junit:4+'
+    testImplementation 'org.hamcrest:hamcrest-library:1.4-atlassian-1'
 }

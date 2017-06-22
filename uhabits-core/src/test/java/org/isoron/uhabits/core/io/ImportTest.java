@@ -53,7 +53,7 @@ public class ImportTest extends BaseUnitTest
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Breed dragons"));
         assertThat(habit.getDescription(), equalTo("with love and fire"));
-        assertThat(habit.getFrequency(), equalTo(Frequency.DAILY));
+        assertThat(habit.getFrequency(), equalTo(Frequency.Companion.getDAILY()));
         assertTrue(containsRepetition(habit, 2016, 3, 18));
         assertTrue(containsRepetition(habit, 2016, 3, 19));
         assertFalse(containsRepetition(habit, 2016, 3, 20));
@@ -69,7 +69,8 @@ public class ImportTest extends BaseUnitTest
 
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(), equalTo(
+            Companion.getTHREE_TIMES_PER_WEEK()));
         assertTrue(containsRepetition(habit, 2016, 3, 14));
         assertTrue(containsRepetition(habit, 2016, 3, 16));
         assertFalse(containsRepetition(habit, 2016, 3, 17));
@@ -84,7 +85,8 @@ public class ImportTest extends BaseUnitTest
 
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(), equalTo(
+            Companion.getTHREE_TIMES_PER_WEEK()));
         assertFalse(habit.hasReminder());
         assertFalse(containsRepetition(habit, 2015, 12, 31));
         assertTrue(containsRepetition(habit, 2016, 1, 18));
@@ -93,7 +95,8 @@ public class ImportTest extends BaseUnitTest
 
         habit = habitList.getByPosition(1);
         assertThat(habit.getName(), equalTo("brush teeth"));
-        assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(), equalTo(
+            Companion.getTHREE_TIMES_PER_WEEK()));
         assertThat(habit.hasReminder(), equalTo(true));
 
         Reminder reminder = habit.getReminder();

@@ -31,6 +31,7 @@ class ListHabitsScreen : ReactDOMComponent<Props, State>() {
                 +"FAQ"
             }
             +(Repetition(100, 200)).toString()
+            +(Score.compute(1.0, 1000.0, 1.0)).toString()
         }
     }
 }

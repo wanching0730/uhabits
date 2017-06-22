@@ -25,6 +25,8 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
+
 /**
  * The collection of {@link Repetition}s belonging to a habit.
  */
@@ -115,8 +117,7 @@ public abstract class RepetitionList
      * discarded.
      *
      * @return newest repetition in the list, or null if list is empty.
-     */
-    public abstract Repetition getNewest();
+     */ public abstract Repetition getNewest();
 
     /**
      * Returns the total number of repetitions for each month, from the first
@@ -186,7 +187,7 @@ public abstract class RepetitionList
     @NonNull
     public Repetition toggle(long timestamp)
     {
-        if(habit.isNumerical())
+        if (habit.isNumerical())
             throw new IllegalStateException("habit must NOT be numerical");
 
         timestamp = DateUtils.getStartOfDay(timestamp);
@@ -195,7 +196,7 @@ public abstract class RepetitionList
         if (rep != null) remove(rep);
         else
         {
-            rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
+            rep = new Repetition(timestamp, CHECKED_EXPLICITLY);
             add(rep);
         }
 
@@ -213,11 +214,11 @@ public abstract class RepetitionList
 
     public void toggle(long timestamp, int value)
     {
-        if(!habit.isNumerical())
+        if (!habit.isNumerical())
             throw new IllegalStateException("habit must be numerical");
 
         Repetition rep = getByTimestamp(timestamp);
-        if(rep != null) remove(rep);
+        if (rep != null) remove(rep);
         add(new Repetition(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }
