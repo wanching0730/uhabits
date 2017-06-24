@@ -24,3 +24,7 @@ import kotlin.js.*
 fun Double.pow(other: Double): Double {
     return Math.pow(this, other)
 }
+
+fun Double.round(): Long {
+    return Math.round(this).toLong()
+}
