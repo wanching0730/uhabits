@@ -18,9 +18,9 @@ art/
 bin/
 build/
 captures/
-classes/
-crowdin.yaml
 docs/
 gen/
-local
 local.properties
+crowdin.yaml
+local
+tmp/
