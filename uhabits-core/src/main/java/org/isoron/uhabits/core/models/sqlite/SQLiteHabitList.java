@@ -85,12 +85,13 @@ public class SQLiteHabitList extends HabitList
     public synchronized void add(@NonNull Habit habit)
     {
         loadRecords();
+        habit.setPosition(size());
         list.add(habit);
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
-        record.position = list.indexOf(habit);
         repository.save(record);
+        rebuildOrder();
 
         getObservable().notifyListeners();
     }
@@ -130,6 +131,7 @@ public class SQLiteHabitList extends HabitList
     public void setOrder(@NonNull Order order)
     {
         list.setOrder(order);
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -146,22 +148,16 @@ public class SQLiteHabitList extends HabitList
         return list.iterator();
     }
 
-    private void rebuildOrder()
+    private synchronized void rebuildOrder()
     {
-//        List<Habit> habits = toList();
-//
-//        int i = 0;
-//        for (Habit h : habits)
-//        {
-//            HabitRecord record = repository.find(h.getId());
-//            if (record == null)
-//                throw new RuntimeException("habit not in database");
-//
-//            record.position = i++;
-//            repository.save(record);
-//        }
-//
-//        update(habits);
+        List<HabitRecord> records = repository.findAll("order by position");
+        repository.executeAsTransaction(() -> {
+            int pos = 0;
+            for (HabitRecord r : records) {
+                r.position = pos++;
+                repository.save(r);
+            }
+        });
     }
 
     @Override
@@ -177,6 +173,7 @@ public class SQLiteHabitList extends HabitList
             ((SQLiteRepetitionList) habit.getRepetitions()).removeAll();
             repository.remove(record);
         });
+
         rebuildOrder();
         getObservable().notifyListeners();
     }
@@ -204,24 +201,21 @@ public class SQLiteHabitList extends HabitList
         if (toRecord == null)
             throw new RuntimeException("habit not in database");
 
-        Integer fromPos = fromRecord.position;
-        Integer toPos = toRecord.position;
-        if (toPos < fromPos)
+        if (toRecord.position < fromRecord.position)
         {
             repository.execSQL("update habits set position = position + 1 " +
                                "where position >= ? and position < ?",
-                                toPos, fromPos);
+                                toRecord.position, fromRecord.position);
         }
         else
         {
             repository.execSQL("update habits set position = position - 1 " +
                                "where position > ? and position <= ?",
-                fromPos, toPos);
+                               fromRecord.position, toRecord.position);
         }
 
-        fromRecord.position = toPos;
+        fromRecord.position = toRecord.position;
         repository.save(fromRecord);
-        update(from);
 
         getObservable().notifyListeners();
     }
@@ -231,6 +225,7 @@ public class SQLiteHabitList extends HabitList
     {
         loadRecords();
         rebuildOrder();
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -244,11 +239,12 @@ public class SQLiteHabitList extends HabitList
     public synchronized void update(List<Habit> habits)
     {
         loadRecords();
+        list.update(habits);
+
         for (Habit h : habits)
         {
             HabitRecord record = repository.find(h.getId());
-            if (record == null)
-                throw new RuntimeException("habit not in database");
+            if (record == null) continue;
             record.copyFrom(h);
             repository.save(record);
         }

@@ -89,7 +89,7 @@ public class HabitBullCSVImporter extends AbstractImporter
                 h.setName(name);
                 h.setDescription(description);
                 h.setFrequency(Frequency.Companion.getDAILY());
-                habits.add(h);
+                habitList.add(h);
                 map.put(name, h);
             }
 

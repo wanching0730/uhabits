@@ -117,7 +117,8 @@ public abstract class RepetitionList
      * discarded.
      *
      * @return newest repetition in the list, or null if list is empty.
-     */ public abstract Repetition getNewest();
+     */
+    public abstract Repetition getNewest();
 
     /**
      * Returns the total number of repetitions for each month, from the first
@@ -214,9 +215,6 @@ public abstract class RepetitionList
 
     public void toggle(long timestamp, int value)
     {
-        if (!habit.isNumerical())
-            throw new IllegalStateException("habit must be numerical");
-
         Repetition rep = getByTimestamp(timestamp);
         if (rep != null) remove(rep);
         add(new Repetition(timestamp, value));

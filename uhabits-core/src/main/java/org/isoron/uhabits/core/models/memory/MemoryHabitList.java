@@ -25,10 +25,7 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_COLOR;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_NAME;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_POSITION;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_SCORE;
+import static org.isoron.uhabits.core.models.HabitList.Order.*;
 
 /**
  * In-memory implementation of {@link HabitList}.
@@ -118,6 +115,7 @@ public class MemoryHabitList extends HabitList
         this.order = order;
         this.comparator = getComparatorByOrder(order);
         resort();
+        getObservable().notifyListeners();
     }
 
     private Comparator<Habit> getComparatorByOrder(Order order)
@@ -135,12 +133,21 @@ public class MemoryHabitList extends HabitList
 
         Comparator<Habit> scoreComparator = (h1, h2) ->
         {
-            double s1 = h1.getScores().getTodayValue();
-            double s2 = h2.getScores().getTodayValue();
-            return Double.compare(s2, s1);
+            Double s1 = h1.getScores().getTodayValue();
+            Double s2 = h2.getScores().getTodayValue();
+            if (s1.equals(s2)) return nameComparator.compare(h1, h2);
+            else return s2.compareTo(s1);
         };
 
-        if (order == BY_POSITION) return null;
+        Comparator<Habit> positionComparator = (h1, h2) ->
+        {
+            Integer p1 = h1.getPosition();
+            Integer p2 = h2.getPosition();
+            if (p1.equals(p2)) return nameComparator.compare(h1, h2);
+            else return p1.compareTo(p2);
+        };
+
+        if (order == BY_POSITION) return positionComparator;
         if (order == BY_NAME) return nameComparator;
         if (order == BY_COLOR) return colorComparator;
         if (order == BY_SCORE) return scoreComparator;
@@ -165,23 +172,31 @@ public class MemoryHabitList extends HabitList
     {
         throwIfHasParent();
         list.remove(habit);
+        getObservable().notifyListeners();
     }
 
     @Override
     public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
     {
         throwIfHasParent();
-        if (indexOf(from) < 0)
-            throw new IllegalArgumentException(
-                "list does not contain (from) habit");
+        if (order != BY_POSITION) throw new IllegalStateException(
+            "cannot reorder automatically sorted list");
+
+        if (indexOf(from) < 0) throw new IllegalArgumentException(
+            "list does not contain (from) habit");
 
         int toPos = indexOf(to);
-        if (toPos < 0)
-            throw new IllegalArgumentException(
-                "list does not contain (to) habit");
+        if (toPos < 0) throw new IllegalArgumentException(
+            "list does not contain (to) habit");
 
         list.remove(from);
         list.add(toPos, from);
+
+        int position = 0;
+        for(Habit h : list)
+            h.setPosition(position++);
+
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -193,7 +208,8 @@ public class MemoryHabitList extends HabitList
     @Override
     public void update(List<Habit> habits)
     {
-        // NOP
+        resort();
+        getObservable().notifyListeners();
     }
 
     private void throwIfHasParent()

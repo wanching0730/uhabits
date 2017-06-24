@@ -26,13 +26,11 @@ import org.junit.rules.*;
 import java.io.*;
 import java.util.*;
 
+import static java.lang.Math.*;
 import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_COLOR;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_NAME;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_POSITION;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.isoron.uhabits.core.models.HabitList.Order.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -119,18 +117,22 @@ public class HabitListTest extends BaseUnitTest
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("A Habit");
         h1.setColor(2);
+        h1.setPosition(1);
 
         Habit h2 = fixtures.createEmptyHabit();
         h2.setName("B Habit");
         h2.setColor(2);
+        h2.setPosition(3);
 
         Habit h3 = fixtures.createEmptyHabit();
         h3.setName("C Habit");
         h3.setColor(0);
+        h3.setPosition(0);
 
         Habit h4 = fixtures.createEmptyHabit();
         h4.setName("D Habit");
         h4.setColor(1);
+        h4.setPosition(2);
 
         list.add(h3);
         list.add(h1);
@@ -158,42 +160,47 @@ public class HabitListTest extends BaseUnitTest
         assertThat(list.getByPosition(1), equalTo(h4));
         assertThat(list.getByPosition(2), equalTo(h1));
         assertThat(list.getByPosition(3), equalTo(h2));
+
+        list.setOrder(BY_POSITION);
+        assertThat(list.getByPosition(0), equalTo(h3));
+        assertThat(list.getByPosition(1), equalTo(h1));
+        assertThat(list.getByPosition(2), equalTo(h4));
+        assertThat(list.getByPosition(3), equalTo(h2));
     }
 
     @Test
     public void testReorder()
     {
         int operations[][] = {
-            { 5, 2 }, { 3, 7 }, { 4, 4 }, { 3, 2 }
+            { 5, 2 }, { 3, 7 }, { 4, 4 }, { 8, 3 }
         };
 
-        int expectedPosition[][] = {
-            { 0, 1, 3, 4, 5, 2, 6, 7, 8, 9 },
-            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
-            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
-            { 0, 1, 7, 2, 4, 3, 5, 6, 8, 9 },
+        int expectedSequence[][] = {
+            { 0, 1, 5, 2, 3, 4, 6, 7, 8, 9 },
+            { 0, 1, 5, 2, 4, 6, 7, 3, 8, 9 },
+            { 0, 1, 5, 2, 4, 6, 7, 3, 8, 9 },
+            { 0, 1, 5, 2, 4, 6, 7, 8, 3, 9 },
         };
 
         for (int i = 0; i < operations.length; i++)
         {
-            int from = operations[i][0];
-            int to = operations[i][1];
-
-            Habit fromHabit = habitList.getByPosition(from);
-            Habit toHabit = habitList.getByPosition(to);
+            Habit fromHabit = habitsArray.get(operations[i][0]);
+            Habit toHabit = habitsArray.get(operations[i][1]);
             habitList.reorder(fromHabit, toHabit);
 
-            int actualPositions[] = new int[10];
-
+            int actualSequence[] = new int[10];
             for (int j = 0; j < 10; j++)
             {
-                Habit h = habitList.getById(j);
-                if (h == null) fail();
-                actualPositions[j] = habitList.indexOf(h);
+                Habit h = habitList.getByPosition(j);
+                assertThat(h.getPosition(), equalTo(j));
+                actualSequence[j] = toIntExact(h.getId());
             }
 
-            assertThat(actualPositions, equalTo(expectedPosition[i]));
+            assertThat(actualSequence, equalTo(expectedSequence[i]));
         }
+
+        assertThat(activeHabits.indexOf(habitsArray.get(5)), equalTo(0));
+        assertThat(activeHabits.indexOf(habitsArray.get(2)), equalTo(1));
     }
 
     @Test
@@ -271,5 +278,15 @@ public class HabitListTest extends BaseUnitTest
         Habit h2 = fixtures.createEmptyHabit();
         thrown.expect(IllegalStateException.class);
         activeHabits.reorder(h1, h2);
+    }
+
+    @Test
+    public void testReorder_onSortedList() throws Exception
+    {
+        habitList.setOrder(BY_SCORE);
+        Habit h1 = habitsArray.get(1);
+        Habit h2 = habitsArray.get(2);
+        thrown.expect(IllegalStateException.class);
+        habitList.reorder(h1, h2);
     }
 }

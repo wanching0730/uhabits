@@ -25,15 +25,16 @@ import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
+import org.isoron.uhabits.core.test.*;
 import org.junit.*;
 import org.junit.rules.*;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import java.util.*;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class SQLiteHabitListTest extends BaseUnitTest
 {
@@ -46,28 +47,46 @@ public class SQLiteHabitListTest extends BaseUnitTest
 
     private ModelObservable.Listener listener;
 
+    private ArrayList<Habit> habitsArray;
+
+    private HabitList activeHabits;
+
+    private HabitList reminderHabits;
+
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
         Database db = buildMemoryDatabase();
+        modelFactory = new SQLModelFactory(db);
+        habitList = new SQLiteHabitList(modelFactory);
+        fixtures = new HabitFixtures(modelFactory, habitList);
         repository = new Repository<>(HabitRecord.class, db);
-        habitList = new SQLiteHabitList(new SQLModelFactory(db));
+        habitsArray = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
-            Habit h = modelFactory.buildHabit();
-            h.setName("habit " + i);
-            h.setId((long) i);
-            if (i % 2 == 0) h.setArchived(true);
+            Habit habit = fixtures.createEmptyHabit();
+            habit.setName("habit " + i);
+            habitList.update(habit);
+            habitsArray.add(habit);
 
-            HabitRecord record = new HabitRecord();
-            record.copyFrom(h);
-            record.position = i;
-            repository.save(record);
+            if (i % 3 == 0)
+                habit.setReminder(new Reminder(8, 30, WeekdayList.Companion.getEVERY_DAY()));
         }
 
-        habitList.reload();
+        habitsArray.get(0).setArchived(true);
+        habitsArray.get(1).setArchived(true);
+        habitsArray.get(4).setArchived(true);
+        habitsArray.get(7).setArchived(true);
+        habitList.update(habitsArray);
+
+        activeHabits = habitList.getFiltered(new HabitMatcherBuilder().build());
+
+        reminderHabits = habitList.getFiltered(new HabitMatcherBuilder()
+            .setArchivedAllowed(true)
+            .setReminderRequired(true)
+            .build());
 
         listener = mock(ModelObservable.Listener.class);
         habitList.getObservable().addListener(listener);
@@ -168,4 +187,39 @@ public class SQLiteHabitListTest extends BaseUnitTest
         h2.setId(1000L);
         assertThat(habitList.indexOf(h2), equalTo(-1));
     }
+
+    @Test
+    public void testRemove() throws Exception
+    {
+        Habit h = habitList.getByPosition(2);
+        habitList.remove(h);
+        assertThat(habitList.indexOf(h), equalTo(-1));
+
+        HabitRecord rec = repository.find(2L);
+        assertNull(rec);
+
+        rec = repository.find(3L);
+        assertNotNull(rec);
+        assertThat(rec.position, equalTo(2));
+    }
+
+    @Test
+    public void testReorder()
+    {
+        Habit habit3 = habitList.getById(3);
+        Habit habit4 = habitList.getById(4);
+        assertNotNull(habit3);
+        assertNotNull(habit4);
+        habitList.reorder(habit4, habit3);
+
+        HabitRecord record3 = repository.find(3L);
+        assertNotNull(record3);
+        assertThat(record3.position, equalTo(4));
+
+        HabitRecord record4 = repository.find(4L);
+        assertNotNull(record4);
+        assertThat(record4.position, equalTo(3));
+    }
+
+
 }

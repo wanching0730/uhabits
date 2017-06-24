@@ -129,7 +129,7 @@ public class TickmateDBImporter extends AbstractImporter
                 habit.setName(name);
                 habit.setDescription(description);
                 habit.setFrequency(Frequency.Companion.getDAILY());
-                habits.add(habit);
+                habitList.add(habit);
 
                 createCheckmarks(db, habit, id);
 

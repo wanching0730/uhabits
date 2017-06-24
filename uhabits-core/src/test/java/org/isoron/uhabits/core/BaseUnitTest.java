@@ -71,12 +71,6 @@ public class BaseUnitTest
                 throw new RuntimeException(e);
             }
         }
-
-        @Override
-        public File getProductionDatabaseFile()
-        {
-            throw new IllegalStateException();
-        }
     };
 
     @Before
@@ -86,7 +80,7 @@ public class BaseUnitTest
 
         modelFactory = new MemoryModelFactory();
         habitList = spy(modelFactory.buildHabitList());
-        fixtures = new HabitFixtures(modelFactory);
+        fixtures = new HabitFixtures(modelFactory, habitList);
         taskRunner = new SingleThreadTaskRunner();
         commandRunner = new CommandRunner(taskRunner);
     }
@@ -139,13 +133,18 @@ public class BaseUnitTest
     {
         InputStream in = getClass().getResourceAsStream(assetPath);
         if (in != null) return in;
-        String basePath = "src/test/resources/";
+
+        String basePath = "uhabits-core/src/test/resources/";
         File file = new File(basePath + assetPath);
         if (file.exists() && file.canRead()) in = new FileInputStream(file);
         if (in != null) return in;
 
+        basePath = "src/test/resources/";
+        file = new File(basePath + assetPath);
+        if (file.exists() && file.canRead()) in = new FileInputStream(file);
+        if (in != null) return in;
 
-        throw new RuntimeException("asset not found: " + assetPath);
+        throw new IllegalStateException("asset not found: " + assetPath);
     }
 
     protected Database openDatabaseResource(String path) throws IOException
