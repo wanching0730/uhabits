@@ -37,13 +37,14 @@ class HabitCardView : ReactDOMComponent<HabitCardView.Props, HabitCardView.State
             }
             span(classes = "title") {
                 unsafe {
-                    raw("<span style='color: ${props.color.toJsString()}'>Habit</span>")
+                    raw("<span style='color: ${props.color.toJsString()}'>${props.title}</span>")
                 }
             }
         }
     }
 
     class State : RState
-    class Props(var color: Color) : RProps()
+    class Props(var color: Color,
+                var title: String) : RProps()
     companion object : ReactComponentSpec<HabitCardView, Props, State>
 }

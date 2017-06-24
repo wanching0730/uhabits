@@ -70,10 +70,6 @@ external abstract class Electron {
     }
 
     open class BrowserWindow(options: BrowserWindowConstructorOptions? = definedExternally /* null */) : EventEmitter {
-        open fun on(event: Any /* "app-command" */, listener: (event: Event, command: String) -> Unit): BrowserWindow /* this */ = definedExternally
-        open fun once(event: Any /* "app-command" */, listener: (event: Event, command: String) -> Unit): BrowserWindow /* this */ = definedExternally
-        open fun addListener(event: Any /* "app-command" */, listener: (event: Event, command: String) -> Unit): BrowserWindow /* this */ = definedExternally
-        open fun removeListener(event: Any /* "app-command" */, listener: (event: Event, command: String) -> Unit): BrowserWindow /* this */ = definedExternally
         open fun blur(): Unit = definedExternally
         open fun blurWebView(): Unit = definedExternally
         open fun capturePage(callback: (image: NativeImage) -> Unit): Unit = definedExternally
@@ -147,7 +143,7 @@ external abstract class Electron {
         open fun setKiosk(flag: Boolean): Unit = definedExternally
         open fun setMaximizable(maximizable: Boolean): Unit = definedExternally
         open fun setMaximumSize(width: Number, height: Number): Unit = definedExternally
-        open fun setMenu(menu: Menu): Unit = definedExternally
+        open fun setMenu(menu: Menu?): Unit = definedExternally
         open fun setMenuBarVisibility(visible: Boolean): Unit = definedExternally
         open fun setMinimizable(minimizable: Boolean): Unit = definedExternally
         open fun setMinimumSize(width: Number, height: Number): Unit = definedExternally

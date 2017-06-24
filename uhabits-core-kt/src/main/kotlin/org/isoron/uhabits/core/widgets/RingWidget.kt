@@ -29,7 +29,7 @@ class RingWidget {
     var textSize = 12.0
     var primaryColor = Color(200, 80, 0)
     var backgroundColor = Color(255, 255, 255)
-    var inactiveColor = Color(200, 200, 200)
+    var inactiveColor = Color(220, 220, 220)
     var text = ""
 
     private var paint = Paint()

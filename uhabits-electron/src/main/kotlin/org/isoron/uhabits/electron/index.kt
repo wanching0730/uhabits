@@ -26,7 +26,7 @@ external val render_process: String
 fun main(args: Array<String>) {
     if (jsTypeOf(render_process) != "undefined") return
 
-    var win: dynamic
+    var win: Electron.BrowserWindow?
     Electron.app.on("ready") {
         win = Electron.BrowserWindow(BrowserWindowConstructorOptions().apply {
             width = 800
@@ -34,11 +34,10 @@ fun main(args: Array<String>) {
             minWidth = 400
             minHeight = 300
         })
-        win.setMenu(null)
-        win.loadURL("file://$__dirname/main.html")
-        win.on("close") {
+        win?.setMenu(null)
+        win?.loadURL("file://$__dirname/main.html")
+        win?.on("close") {
             win = null
-            Unit
         }
     }
 }

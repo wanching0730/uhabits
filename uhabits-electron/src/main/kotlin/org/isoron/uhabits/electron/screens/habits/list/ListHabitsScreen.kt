@@ -44,9 +44,18 @@ class ListHabitsScreen
     override fun ReactDOMBuilder.render() {
         div {
             ToolbarView { }
-            HabitCardView { color = Color(233, 30, 99) }
-            HabitCardView { color = Color(46, 125, 50) }
-            HabitCardView { color = Color(69, 39, 160) }
+            HabitCardView {
+                title = "Wake up early"
+                color = Color(233, 30, 99)
+            }
+            HabitCardView {
+                title = "Track time"
+                color = Color(46, 125, 50)
+            }
+            HabitCardView {
+                title = "Exercise"
+                color = Color(69, 39, 160)
+            }
         }
     }
 
