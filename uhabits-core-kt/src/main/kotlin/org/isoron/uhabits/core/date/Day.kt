@@ -19,4 +19,4 @@
 
 package org.isoron.uhabits.core.date
 
-const val MILLISECONDS_IN_ONE_DAY =  24 * 60 * 60 * 1000;
+const val MILLISECONDS_IN_ONE_DAY =  24 * 60 * 60 * 1000
