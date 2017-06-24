@@ -22,7 +22,7 @@ package org.isoron.uhabits.core.widgets
 import org.isoron.uhabits.core.graphics.*
 import platform.*
 
-class RingView {
+class RingWidget {
     var precision = 1 / 16.0
     var percentage = 1.0
     var thickness = 0.0

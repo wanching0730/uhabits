@@ -1,9 +1,8 @@
 package org.isoron.uhabits.electron.screens.habits.list
 
 import kotlinx.html.*
-import org.isoron.uhabits.core.widgets.*
-import org.isoron.uhabits.electron.graphics.*
-import org.w3c.dom.*
+import org.isoron.uhabits.core.graphics.*
+import org.isoron.uhabits.electron.screens.habits.list.views.*
 import react.*
 import react.dom.*
 import kotlin.browser.*
@@ -14,11 +13,8 @@ fun launch() {
     ReactDOM.render(document.body) { ListHabitsScreen {} }
 }
 
-class State : RState
-class Props : RProps()
-
-class ListHabitsScreen : ReactDOMComponent<Props, State>() {
-    companion object : ReactComponentSpec<ListHabitsScreen, Props, State>
+class ListHabitsScreen
+    : ReactDOMComponent<ListHabitsScreen.Props, ListHabitsScreen.State>() {
 
     private val canvasId = Math.random().toString()
 
@@ -27,19 +23,15 @@ class ListHabitsScreen : ReactDOMComponent<Props, State>() {
     }
 
     override fun ReactDOMBuilder.render() {
-        canvas {
-            id = canvasId
-            width = "200px"
-            height = "200px"
+        div {
+            ToolbarView { }
+            HabitCardView { color = Color(233, 30, 99) }
+            HabitCardView { color = Color(46, 125, 50) }
+            HabitCardView { color = Color(69, 39, 160) }
         }
     }
 
-    override fun componentDidMount() {
-        val canvas = document.getElementById(canvasId) as HTMLCanvasElement
-        val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
-        val ring = RingView()
-        ring.thickness = 10.0
-        ring.percentage = 0.42
-        ring.draw(HTMLCanvas(canvas, ctx))
-    }
+    class State : RState
+    class Props : RProps()
+    companion object : ReactComponentSpec<ListHabitsScreen, Props, State>
 }

@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title>Main Screen</title>
-  </head>
-  <body>
-    <script>
-      render_process = 1;
-      var app = require("./index.js");
-      new app.org.isoron.uhabits.electron.screens.habits.list.launch();
-    </script>
-  </body>
+    <title>Loop Habit Tracker</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet"
+          href="node_modules/material-components-web/dist/material-components-web.css">
+</head>
+<body class="mdc-typography">
+<script>
+  render_process = 1;
+  var app = require("./index.js");
+  new app.org.isoron.uhabits.electron.screens.habits.list.launch();
+</script>
+<script src="node_modules/material-components-web/dist/material-components-web.js"></script>
+<script>mdc.autoInit()</script>
+</body>
 </html>
