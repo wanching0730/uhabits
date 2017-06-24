@@ -1,19 +1,41 @@
+/*
+ * Copyright (C) 2015-2017 Álinson Santos Xavier <isoron@gmail.com>
+ *
+ * This file is part of Loop Habit Tracker.
+ *
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.isoron.uhabits.electron
 
-import io.atom.electron.*
+import electron.*
 
-external val render_process: dynamic
+external val render_process: String
 
-class Options(var width: Int, var height: Int)
-
-fun main(args : Array<String>) {
-    if(jsTypeOf(render_process) != "undefined") return
+fun main(args: Array<String>) {
+    if (jsTypeOf(render_process) != "undefined") return
 
     var win: dynamic
     Electron.app.on("ready") {
-        win = Electron.BrowserWindow(Options(width = 800, height = 600))
-//        win.setMenu(null)
-        win.loadURL("file://${__dirname}/main.html")
+        win = Electron.BrowserWindow(BrowserWindowConstructorOptions().apply {
+            width = 800
+            height = 600
+            minWidth = 400
+            minHeight = 300
+        })
+        win.setMenu(null)
+        win.loadURL("file://$__dirname/main.html")
         win.on("close") {
             win = null
             Unit
