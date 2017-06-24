@@ -28,6 +28,7 @@ import android.view.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
@@ -36,6 +37,7 @@ import java.util.*;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 public class HistoryChart extends ScrollableChart
 {

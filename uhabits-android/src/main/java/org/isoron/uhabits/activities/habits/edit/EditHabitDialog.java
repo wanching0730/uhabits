@@ -202,7 +202,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
     private void populateForm()
     {
         Habit habit = modelFactory.buildHabit();
-        habit.setFrequency(Frequency.DAILY);
+        habit.setFrequency(Frequency.Companion.getDAILY());
         habit.setColor(prefs.getDefaultHabitColor(habit.getColor()));
         habit.setType(getTypeFromArguments());
 

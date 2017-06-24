@@ -1,2 +1,2 @@
-include ':uhabits-core', ':uhabits-electron', 'uhabits-core-kt'
+include ':uhabits-core', ':uhabits-electron', 'uhabits-core-kt', 'uhabits-android', 'android-base', 'android-pickers'
 

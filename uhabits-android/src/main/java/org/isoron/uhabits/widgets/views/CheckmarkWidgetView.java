@@ -26,11 +26,11 @@ import android.widget.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 public class CheckmarkWidgetView extends HabitWidgetView
 {
@@ -71,7 +71,7 @@ public class CheckmarkWidgetView extends HabitWidgetView
 
         switch (checkmarkValue)
         {
-            case Checkmark.CHECKED_EXPLICITLY:
+            case CHECKED_EXPLICITLY:
                 text = getResources().getString(R.string.fa_check);
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
@@ -83,7 +83,7 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 frame.setBackgroundDrawable(background);
                 break;
 
-            case Checkmark.CHECKED_IMPLICITLY:
+            case CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
                 bgColor = res.getColor(R.attr.cardBackgroundColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
@@ -93,7 +93,7 @@ public class CheckmarkWidgetView extends HabitWidgetView
 
                 break;
 
-            case Checkmark.UNCHECKED:
+            case UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBackgroundColor);
@@ -190,7 +190,7 @@ public class CheckmarkWidgetView extends HabitWidgetView
             percentage = 0.75f;
             name = "Wake up early";
             activeColor = PaletteUtils.getAndroidTestColor(6);
-            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
+            checkmarkValue = CHECKED_EXPLICITLY;
             refresh();
         }
     }

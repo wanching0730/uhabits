@@ -72,7 +72,7 @@ public class FrequencyPanel extends FrameLayout
             return new Frequency(numerator, denominator);
         }
 
-        return Frequency.DAILY;
+        return Frequency.Companion.getDAILY();
     }
 
     @SuppressLint("SetTextI18n")
@@ -142,10 +142,10 @@ public class FrequencyPanel extends FrameLayout
 
     private int getQuickSelectPosition(@NonNull Frequency freq)
     {
-        if (freq.equals(Frequency.DAILY)) return 0;
-        if (freq.equals(Frequency.WEEKLY)) return 1;
-        if (freq.equals(Frequency.TWO_TIMES_PER_WEEK)) return 2;
-        if (freq.equals(Frequency.FIVE_TIMES_PER_WEEK)) return 3;
+        if (freq.equals(Frequency.Companion.getDAILY())) return 0;
+        if (freq.equals(Frequency.Companion.getWEEKLY())) return 1;
+        if (freq.equals(Frequency.Companion.getTWO_TIMES_PER_WEEK())) return 2;
+        if (freq.equals(Frequency.Companion.getFIVE_TIMES_PER_WEEK())) return 3;
         return -1;
     }
 

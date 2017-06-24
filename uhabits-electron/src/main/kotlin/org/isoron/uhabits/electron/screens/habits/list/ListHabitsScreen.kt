@@ -29,8 +29,8 @@ class ListHabitsScreen : ReactDOMComponent<Props, State>() {
     override fun ReactDOMBuilder.render() {
         canvas {
             id = canvasId
-            width = "300px"
-            height = "500px"
+            width = "200px"
+            height = "200px"
         }
     }
 

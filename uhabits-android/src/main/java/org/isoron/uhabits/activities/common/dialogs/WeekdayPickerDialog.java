@@ -49,8 +49,8 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        if (listener != null)
-            listener.onWeekdaysSet(new WeekdayList(selectedDays));
+        if (listener != null) listener.onWeekdaysSet(
+            WeekdayList.Companion.fromArray(selectedDays));
     }
 
     @Override
