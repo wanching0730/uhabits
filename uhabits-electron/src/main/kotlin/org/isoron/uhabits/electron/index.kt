@@ -34,7 +34,7 @@ fun main(args: Array<String>) {
             minWidth = 400
             minHeight = 300
         })
-        win?.setMenu(null)
+        //win?.setMenu(null)
         win?.loadURL("file://$__dirname/main.html")
         win?.on("close") {
             win = null

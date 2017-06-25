@@ -16,6 +16,11 @@
   new app.org.isoron.uhabits.electron.screens.habits.list.launch();
 </script>
 <script src="node_modules/material-components-web/dist/material-components-web.js"></script>
-<script>mdc.autoInit()</script>
+<script>
+  mdc.autoInit();
+  document.querySelectorAll('.card').forEach(function(e) {
+    mdc.ripple.MDCRipple.attachTo(e);
+  })
+</script>
 </body>
 </html>

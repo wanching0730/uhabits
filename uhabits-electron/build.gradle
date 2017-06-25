@@ -1,15 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.1.2-5'
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.2-5"
     }
 }
 
 plugins {
-	id "com.moowork.node" version "1.2.0"
+    id "com.moowork.node" version "1.2.0"
 }
 
 apply plugin: 'idea'
@@ -18,6 +17,8 @@ apply plugin: 'java'
 
 group 'org.isoron.uhabits'
 version '1.8.0'
+
+jar.enabled = false
 
 repositories {
     jcenter()
@@ -28,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:1.1.2-5"
     compile "org.jetbrains.kotlinx:kotlinx-html-js:0.6.3"
 }
 
@@ -56,18 +57,23 @@ build.doLast() {
             }
         }
     }
-
-	copy {
-		includeEmptyDirs = false
-		from new File("build/resources/main")
-		into "${projectDir}/build/app"
-	}
 }
 
-build.finalizedBy npm_install
+task copyResources(type: Copy) {
+    includeEmptyDirs = false
+    from "${projectDir}/src/main/resources"
+    into "${projectDir}/build/app"
+}
+
+task compileSass(type: Exec) {
+    commandLine "${projectDir}/tools/compile_sass.sh"
+    workingDir "${projectDir}"
+}
 
 node {
-	nodeModulesDir = file("${projectDir}/build/app")
+    nodeModulesDir = file("${projectDir}/build/app")
 }
 
-jar.enabled = false
+npm_install.dependsOn(copyResources)
+compileSass.dependsOn(npm_install)
+build.finalizedBy(compileSass)
