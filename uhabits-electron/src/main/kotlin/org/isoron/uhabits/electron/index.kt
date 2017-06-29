@@ -33,11 +33,16 @@ fun main(args: Array<String>) {
             height = 600
             minWidth = 400
             minHeight = 300
+            show = false
         })
-        //win?.setMenu(null)
+        win?.setMenu(null)
         win?.loadURL("file://$__dirname/main.html")
+        win?.on("ready-to-show") {
+            win?.show()
+        }
         win?.on("close") {
             win = null
         }
+
     }
 }
