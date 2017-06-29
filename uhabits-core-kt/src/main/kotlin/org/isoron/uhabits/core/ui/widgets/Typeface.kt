@@ -17,22 +17,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.core.graphics
+package org.isoron.uhabits.core.ui.widgets
 
-import org.isoron.uhabits.core.ui.widgets.*
-
-enum class TextAlign {
-    LEFT, RIGHT, CENTER
-}
-
-enum class TextBaseLine {
-    BOTTOM, MIDDLE
-}
-
-class Paint {
-    var color = Color(0, 0, 0)
-    var textSize = 10.0
-    var textAlign = TextAlign.CENTER
-    var textBase = TextBaseLine.MIDDLE
-    var typeface = Typeface.REGULAR
+enum class Typeface {
+    REGULAR, FONT_AWESOME
 }
