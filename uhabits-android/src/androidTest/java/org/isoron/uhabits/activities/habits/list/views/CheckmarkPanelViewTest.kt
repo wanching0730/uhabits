@@ -24,6 +24,7 @@ import android.support.test.runner.*
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.utils.*
 import org.junit.*

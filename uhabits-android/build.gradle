@@ -102,6 +102,10 @@ dependencies {
     testImplementation "org.mockito:mockito-core:2.8.9"
     testImplementation "org.mockito:mockito-inline:2.8.9"
 
+    kaptAndroidTest 'com.google.auto.factory:auto-factory:1.0-beta3'
+    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.9'
+    kaptAndroidTest 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
     // mockito-android 2+ includes net.bytebuddy, which causes tests to fail.
     // Excluding the package net.bytebuddy on AndroidManifest.xml breaks some
     // AndroidJUnitRunner functionality, such as running individual methods.

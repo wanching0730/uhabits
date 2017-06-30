@@ -30,6 +30,8 @@ import org.junit.runner.*;
 
 import java.io.*;
 
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class CheckmarkWidgetViewTest extends BaseViewTest
@@ -67,7 +69,7 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
     @Test
     public void testRender_implicitlyChecked() throws IOException
     {
-        view.setCheckmarkValue(Checkmark.CHECKED_IMPLICITLY);
+        view.setCheckmarkValue(CHECKED_IMPLICITLY);
         view.refresh();
         assertRenders(view, PATH + "implicitly_checked.png");
     }
@@ -82,7 +84,7 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
     @Test
     public void testRender_unchecked() throws IOException
     {
-        view.setCheckmarkValue(Checkmark.UNCHECKED);
+        view.setCheckmarkValue(UNCHECKED);
         view.refresh();
         assertRenders(view, PATH + "unchecked.png");
     }

@@ -28,9 +28,9 @@ import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest

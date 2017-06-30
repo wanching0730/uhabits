@@ -74,7 +74,6 @@ public class BaseAndroidTest extends TestCase
 
     protected HabitsActivityTestComponent component;
 
-    @Override
     private boolean isDone = false;
 
     @Before

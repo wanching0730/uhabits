@@ -40,7 +40,7 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     override fun setUp() {
         super.setUp()
         view = component.getCheckmarkButtonViewFactory().create().apply {
-            value = Checkmark.UNCHECKED
+            value = UNCHECKED
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { toggled = true }
         }
@@ -49,19 +49,19 @@ class CheckmarkButtonViewTest : BaseViewTest() {
 
     @Test
     fun testRender_explicitCheck() {
-        view.value = Checkmark.CHECKED_EXPLICITLY
+        view.value = CHECKED_EXPLICITLY
         assertRendersCheckedExplicitly()
     }
 
     @Test
     fun testRender_implicitCheck() {
-        view.value = Checkmark.CHECKED_IMPLICITLY
+        view.value = CHECKED_IMPLICITLY
         assertRendersCheckedImplicitly()
     }
 
     @Test
     fun testRender_unchecked() {
-        view.value = Checkmark.UNCHECKED
+        view.value = UNCHECKED
         assertRendersUnchecked()
     }
 

@@ -54,7 +54,7 @@ public class HabitFixtures
         habit.setName("Meditate");
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(5);
-        habit.setFrequency(Frequency.DAILY);
+        habit.setFrequency(Frequency.Companion.getDAILY());
         habit.setId(id);
         habitList.add(habit);
         return habit;

@@ -17,33 +17,25 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits
 
-import org.isoron.androidbase.*;
-import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.tasks.*;
-
-import dagger.*;
+import dagger.*
+import org.isoron.androidbase.*
+import org.isoron.uhabits.core.*
+import org.isoron.uhabits.core.tasks.*
 
 @AppScope
-@Component(modules = {
-    AppContextModule.class,
-    HabitsModule.class,
-    SingleThreadModule.class,
-})
-public interface HabitsApplicationTestComponent
-    extends HabitsApplicationComponent
-{
-
-}
+@Component(modules = arrayOf(
+        AppContextModule::class,
+        HabitsModule::class,
+        SingleThreadModule::class))
+interface HabitsApplicationTestComponent : HabitsApplicationComponent
 
 @Module
-class SingleThreadModule
-{
+class SingleThreadModule {
     @Provides
     @AppScope
-    static TaskRunner provideTaskRunner()
-    {
-        return new SingleThreadTaskRunner();
+    fun provideTaskRunner(): TaskRunner {
+        return SingleThreadTaskRunner()
     }
 }
