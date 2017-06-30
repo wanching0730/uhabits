@@ -34,7 +34,7 @@ import java.text.*;
 import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public class StreakChart extends View
 {

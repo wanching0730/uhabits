@@ -1,22 +1,10 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.2-5"
-    }
-}
-
 plugins {
     id "com.moowork.node" version "1.2.0"
 }
 
 apply plugin: 'idea'
-apply plugin: 'kotlin2js'
+apply plugin: 'kotlin-platform-js'
 apply plugin: 'java'
-
-group 'org.isoron.uhabits'
-version '1.8.0'
 
 jar.enabled = false
 
@@ -29,7 +17,8 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:1.1.2-5"
+    compile project(":uhabits-core:js")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     compile "org.jetbrains.kotlinx:kotlinx-html-js:0.6.3"
 }
 
@@ -38,10 +27,6 @@ compileKotlin2Js {
     kotlinOptions.moduleKind = 'commonjs'
     kotlinOptions.main = "call"
     kotlinOptions.metaInfo = true
-}
-
-sourceSets {
-    main.kotlin.srcDirs += "../electron-base/src/main/kotlin"
 }
 
 build.doLast() {

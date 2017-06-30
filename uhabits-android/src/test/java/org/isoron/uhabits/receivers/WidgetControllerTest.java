@@ -29,7 +29,7 @@ import org.junit.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.CheckmarkKt.*;
 import static org.mockito.Mockito.*;
 
 public class WidgetControllerTest extends BaseAndroidJVMTest
