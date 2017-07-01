@@ -22,42 +22,48 @@ package org.isoron.uhabits.core.ui.widgets
 import org.isoron.uhabits.core.graphics.*
 import platform.*
 
-class RingWidget(var props: Props) {
+interface View {
+    fun draw(canvas: Canvas)
+}
 
-    class Props(theme: Theme,
-                var precision: Double = 1 / 16.0,
-                var percentage: Double = 1.0,
-                var thickness: Double = 0.0,
-                var text: String = "",
-                var textSize: Double = theme.smallTextSize,
-                var grey: Color = theme.lowContrastTextColor,
-                var primaryColor: Color = Color(255, 0, 0),
-                var backgroundColor: Color = theme.cardBackgroundColor,
-                var typeface: Typeface = Typeface.REGULAR)
+class RingWidget(theme: Theme) : View {
+    var precision: Double = 0.01
+    var percentage: Double = 1.0
+    var thickness: Double = 0.0
+    var text: String = ""
+    var textSize: Double = theme.smallTextSize
+    var grey: Color = theme.lowContrastTextColor
+    var primaryColor: Color = Color(255, 0, 0)
+    var backgroundColor: Color = theme.cardBackgroundColor
+    var typeface: Typeface = Typeface.REGULAR
 
     private val paint = Paint()
     private val rect = Rect()
 
-    fun draw(canvas: Canvas) {
+    override fun draw(canvas: Canvas) {
+        rect.set(0.0, 0.0, canvas.width(), canvas.height())
+        paint.color = backgroundColor
+        canvas.drawRect(rect, paint)
+
         val diameter = minOf(canvas.width(), canvas.height())
-        paint.color = props.primaryColor
+        paint.color = primaryColor
         rect.set(0.0, 0.0, diameter, diameter)
 
-        val angle = 360.0 * (props.percentage / props.precision).round() * props.precision
+        val angle = 360.0 * (percentage / precision).round() * precision
         canvas.drawWedge(rect, -90.0, angle, paint)
 
-        paint.color = props.grey
+        paint.color = grey
         canvas.drawWedge(rect, angle - 90, 360 - angle, paint)
 
-        if (props.thickness > 0) {
-            paint.color = (props.backgroundColor)
-            rect.inset(props.thickness, props.thickness)
+        if (thickness > 0) {
+            paint.color = (backgroundColor)
+            rect.inset(thickness, thickness)
             canvas.drawWedge(rect, 0.0, 360.0, paint)
 
-            paint.typeface = props.typeface
-            paint.color = props.primaryColor
-            paint.textSize = props.textSize
-            canvas.drawText(props.text, rect.centerX(), rect.centerY(), paint)
+            paint.typeface = typeface
+            paint.color = primaryColor
+            paint.textSize = textSize
+            canvas.drawText(text, rect.centerX(), rect.centerY(), paint)
         }
     }
 }

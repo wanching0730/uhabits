@@ -19,51 +19,47 @@
 
 package org.isoron.uhabits.activities.common.views
 
-import android.graphics.*
 import android.support.test.filters.*
 import android.support.test.runner.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.core.graphics.*
+import org.isoron.uhabits.core.ui.widgets.*
 import org.junit.*
 import org.junit.runner.*
-import java.io.*
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class RingViewTest : BaseViewTest() {
 
-    private lateinit var view: RingView
-
-    @Before
-    override fun setUp() {
-        super.setUp()
-
-        view = RingView(targetContext)
-        view.percentage = 0.6f
-        view.setText("60%")
-        view.color = PaletteUtils.getAndroidTestColor(0)
-        view.setBackgroundColor(Color.WHITE)
-        view.setThickness(dpToPixels(3))
-    }
+    private val BASE_PATH = "common/RingView"
 
     @Test
-    @Throws(IOException::class)
     fun testRender_base() {
+        val ring = RingWidget(LIGHT_THEME).apply {
+            percentage = 0.6
+            text = "60%"
+            thickness = 3.0
+            primaryColor = Color(211, 47, 47)
+        }
+
+        val view = AndroidView(targetContext, ring)
         measureView(view, dpToPixels(100), dpToPixels(100))
-        assertRenders(view, BASE_PATH + "render.png")
+        assertRenders(view, "$BASE_PATH/render.png")
     }
 
     @Test
-    @Throws(IOException::class)
     fun testRender_withDifferentParams() {
-        view.percentage = 0.25f
-        view.color = PaletteUtils.getAndroidTestColor(5)
+        val ring = RingWidget(LIGHT_THEME).apply {
+            LIGHT_THEME
+            percentage = 0.25
+            text = "60%"
+            thickness = 3.0
+            primaryColor = Color(175, 180, 43)
+        }
 
+        val view = AndroidView(targetContext, ring)
         measureView(view, dpToPixels(200), dpToPixels(200))
-        assertRenders(view, BASE_PATH + "renderDifferentParams.png")
-    }
-
-    companion object {
-        private val BASE_PATH = "common/RingView/"
+        assertRenders(view, "$BASE_PATH/renderDifferentParams.png")
     }
 }

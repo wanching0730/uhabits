@@ -25,14 +25,16 @@ import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
 import android.text.*
 import android.view.*
+import android.view.View
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.common.views.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.core.ui.widgets.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 
@@ -70,10 +72,10 @@ class HabitCardView(
         }
 
     var score
-        get() = scoreRing.percentage.toDouble()
+        get() = scoreRing.view.percentage
         set(value) {
-            scoreRing.percentage = value.toFloat()
-            scoreRing.precision = 1.0f / 16
+            scoreRing.view.percentage = value
+            scoreRing.view.precision = 1.0 / 16
         }
 
     var unit
@@ -99,18 +101,18 @@ class HabitCardView(
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
-    private var scoreRing: RingView
+    private var scoreRing: AndroidView<RingWidget>
 
     init {
-        scoreRing = RingView(context).apply {
-            val thickness = dp(3f)
+        scoreRing = AndroidView(context, RingWidget(LIGHT_THEME).apply {
+            thickness = 3.0
+        }).apply {
             val margin = dp(8f).toInt()
             val ringSize = dp(15f).toInt()
             layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
                 setMargins(margin, 0, margin, 0)
                 gravity = Gravity.CENTER
             }
-            setThickness(thickness)
         }
 
         label = TextView(context).apply {
@@ -206,7 +208,7 @@ class HabitCardView(
             setTextColor(c)
         }
         scoreRing.apply {
-            color = c
+            view.primaryColor = c.toColor()
         }
         checkmarkPanel.apply {
             color = c

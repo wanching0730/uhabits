@@ -28,3 +28,11 @@ interface Theme {
     val lowContrastTextColor: Color
     val smallTextSize: Double
 }
+
+object LIGHT_THEME : Theme {
+    override val cardBackgroundColor = Color(250, 250, 250)
+    override val highContrastTextColor = Color(66, 66, 66)
+    override val mediumContrastTextColor = Color(158, 158, 158)
+    override val lowContrastTextColor = Color(224, 224, 224)
+    override val smallTextSize = 14.0
+}

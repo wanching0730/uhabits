@@ -28,6 +28,11 @@ class HTMLCanvas(
         private val context: CanvasRenderingContext2D
 ) : Canvas {
 
+    override fun drawRect(rect: Rect, paint: Paint) {
+        context.fillStyle = paint.color.toJsString()
+        context.fillRect(rect.left, rect.top, rect.width(), rect.height())
+    }
+
     override fun height() = canvas.height.toDouble()
     override fun width() = canvas.width.toDouble()
 

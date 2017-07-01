@@ -28,4 +28,5 @@ interface Canvas {
     fun drawText(text: String, x: Double, y: Double, paint: Paint)
     fun width(): Double
     fun height(): Double
+    fun drawRect(rect: Rect, paint: Paint)
 }

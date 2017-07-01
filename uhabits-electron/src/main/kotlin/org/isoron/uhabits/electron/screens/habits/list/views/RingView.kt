@@ -55,11 +55,11 @@ class RingView : ReactDOMComponent<RingView.Props, RingView.State>() {
     override fun componentDidMount() {
         val canvas = document.getElementById(canvasId) as HTMLCanvasElement
         val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
-        val ring = RingWidget(RingWidget.Props(
-                LIGHT_THEME,
-                thickness = 3.0,
-                percentage = Math.random(),
-                primaryColor = props.color))
+        val ring = RingWidget(LIGHT_THEME).apply {
+            thickness = 3.0
+            percentage = Math.random()
+            primaryColor = props.color
+        }
         ring.draw(HTMLCanvas(canvas, ctx))
     }
 
