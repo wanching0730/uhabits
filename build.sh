@@ -17,7 +17,7 @@
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
-GRADLE="./gradlew --stacktrace"
+GRADLE="gradle"
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUTS_DIR=uhabits-android/build/outputs
 
@@ -85,27 +85,27 @@ run_adb_as_root() {
 build_apk() {
 	if [ ! -z $RELEASE ]; then
 		log_info "Building release APK"
-		./gradlew assembleRelease \
+		$GRADLE :uhabits-android:assembleRelease \
 			-Pandroid.injected.signing.store.file=$KEYFILE \
 			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
 			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
 			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
 	else
 		log_info "Building debug APK"
-		./gradlew assembleDebug || fail
+		$GRADLE :uhabits-android:assembleDebug || fail
 	fi
 }
 
 build_instrumentation_apk() {
 	log_info "Building instrumentation APK"
 	if [ ! -z $RELEASE ]; then
-		$GRADLE assembleAndroidTest  \
+		$GRADLE :uhabits-android:assembleAndroidTest  \
 			-Pandroid.injected.signing.store.file=$KEYFILE \
 			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
 			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
 			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
 	else
-		$GRADLE assembleAndroidTest || fail
+		$GRADLE :uhabits-android:assembleAndroidTest || fail
 	fi
 }
 
@@ -123,7 +123,7 @@ uninstall_apk() {
 install_test_butler() {
 	log_info "Installing Test Butler"
 	$ADB uninstall com.linkedin.android.testbutler
-	$ADB install tools/test-butler-app-1.3.1.apk
+	$ADB install uhabits-android/tools/test-butler-app-1.3.1.apk
 }
 
 install_apk() {
@@ -159,17 +159,17 @@ run_instrumented_tests() {
 
 parse_instrumentation_results() {
 	log_info "Parsing instrumented test results"
-	java -jar tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
+	java -jar uhabits-android/tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
 }
 
-generate_coverage_badge() {
-	log_info "Generating code coverage report and badge"
-	$GRADLE coverageReport	|| fail
-
-	ANDROID_REPORT=uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml
-	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
-	python tools/coverage-badge/badge.py -i $ANDROID_REPORT:$CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
-}
+#generate_coverage_badge() {
+#	log_info "Generating code coverage report and badge"
+#	$GRADLE coverageReport	|| fail
+#
+#	ANDROID_REPORT=uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml
+#	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
+#	python tools/coverage-badge/badge.py -i $ANDROID_REPORT:$CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
+#}
 
 fetch_artifacts() {
 	log_info "Fetching generated artifacts"
@@ -190,7 +190,7 @@ fetch_logcat() {
 
 run_jvm_tests() {
 	log_info "Running JVM tests"
-	$GRADLE testDebugUnitTest :uhabits-core:check || fail
+	$GRADLE testDebugUnitTest :uhabits-core:jvm:check || fail
 }
 
 uninstall_test_apk() {
@@ -224,7 +224,7 @@ run_local_tests() {
 	fetch_artifacts
 	fetch_logcat
 	run_jvm_tests
-	generate_coverage_badge
+	#generate_coverage_badge
 	uninstall_test_apk
 }
 
