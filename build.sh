@@ -17,7 +17,7 @@
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
-GRADLE="gradle"
+GRADLE="./gradlew"
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUTS_DIR=uhabits-android/build/outputs
 
